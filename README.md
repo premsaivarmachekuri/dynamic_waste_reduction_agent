@@ -6,6 +6,31 @@ An autonomous perishable waste reduction engine for supermarkets. Powered by Goo
 
 This project implements a multi-agent architecture via `Google ADK`. A main Orchestrator Agent manages a sequential pipeline of 4 specialized sub-agents:
 
+```mermaid
+graph TD
+    User([User Request]) --> Orchestrator{Orchestrator Agent}
+    
+    subgraph Pipeline [Sequential Pipeline]
+        direction TB
+        DA[Data Agent<br/>data_agent.py] --> FA[Forecast Agent<br/>forecast_agent.py]
+        FA --> DA2[Decision Agent<br/>decision_agent.py]
+        DA2 --> EA[Explanation Agent<br/>explanation_agent.py]
+    end
+    
+    Orchestrator -->|Delegates to| DA
+    EA -->|Final Assessment| Orchestrator
+    Orchestrator --> Response([Action Recommendations & ESG Impact])
+    
+    classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px;
+    classDef orchestrator fill:#d4edda,stroke:#28a745,stroke-width:2px;
+    classDef subagent fill:#cce5ff,stroke:#007bff,stroke-width:2px;
+    classDef io fill:#e2e3e5,stroke:#6c757d,stroke-width:2px,stroke-dasharray: 5 5;
+    
+    class Orchestrator orchestrator;
+    class DA,FA,DA2,EA subagent;
+    class User,Response io;
+```
+
 1. **Data Agent (`agents/data_agent.py`)** 📥
    Retrieves and filters at-risk inventory batches based on projected waste and expiry dates.
 2. **Forecast Agent (`agents/forecast_agent.py`)** 📈
