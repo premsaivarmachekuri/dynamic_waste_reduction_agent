@@ -71,6 +71,19 @@ graph TD
    ```
    *Runs a local test simulating a request for a specific store and SKU.*
 
+## 🐳 Docker Build
+
+To run the project in an isolated container:
+
+1. **Build the Image:**
+   ```bash
+   docker build -t dynamic-waste-reduction-agent .
+   ```
+2. **Run the Container:**
+   ```bash
+   docker run -p 7860:7860 dynamic-waste-reduction-agent
+   ```
+
 ## ☁️ Deployment
 
 Deploy the frontend UI easily to Google Cloud Run:
@@ -86,3 +99,10 @@ adk deploy orchestrator.py --project YOUR_PROJECT_ID --region us-central1
 ## 🌍 ESG Impact
 
 The platform prioritizes reducing preventable food waste, converting saved inventory back into revenue while proactively reducing CO₂e emissions. The UI dynamically summarizes value saved and emissions prevented.
+
+## 🗺️ Roadmap
+
+- [x] Define multi-agent architecture and orchestrator.
+- [x] Set up Gradio application (`app.py`).
+- [ ] Build the project via Docker.
+- [ ] Deploy the project (e.g., using Google Cloud).
