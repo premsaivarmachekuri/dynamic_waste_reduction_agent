@@ -104,5 +104,5 @@ The platform prioritizes reducing preventable food waste, converting saved inven
 
 - [x] Define multi-agent architecture and orchestrator.
 - [x] Set up Gradio application (`app.py`).
-- [ ] Build the project via Docker.
-- [ ] Deploy the project (e.g., using Google Cloud).
+- [x] Build the project via Docker.
+- [x] Deploy the project (e.g., using Google Cloud).
