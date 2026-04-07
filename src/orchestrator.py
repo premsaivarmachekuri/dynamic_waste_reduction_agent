@@ -13,10 +13,10 @@ Usage (ADK CLI):
 """
 
 from google.adk.agents import SequentialAgent
-from agents.data_agent import data_agent
-from agents.forecast_agent import forecast_agent
-from agents.decision_agent import decision_agent
-from agents.explanation_agent import explanation_agent
+from src.agents.data_agent import data_agent
+from src.agents.forecast_agent import forecast_agent
+from src.agents.decision_agent import decision_agent
+from src.agents.explanation_agent import explanation_agent
 
 # ─────────────────────────────────────────
 # The main orchestrator pipeline

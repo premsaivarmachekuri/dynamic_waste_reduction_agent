@@ -14,10 +14,10 @@ import asyncio
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai.types import Content, Part
-from orchestrator import root_agent
+from src.orchestrator import root_agent
 import os
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 
 # ─────────────────────────────────────────
 # ADK Runner setup
