@@ -1,0 +1,103 @@
+TITLE: ESG Reporting Standards for Food Waste Reduction
+SOURCE: Dynamic Waste Reduction Engine Knowledge Base v2.0
+CATEGORY: ESG / Sustainability Compliance
+
+## APPLICABLE FRAMEWORKS
+
+### WRAP Courtauld Commitment 2030
+- Target: 50% reduction in food waste per tonne of food handled by 2030 (vs 2007 baseline)
+- Scope 3 reporting required for all signatories
+- Annual self-reporting with third-party verification recommended
+- UK supermarkets handling >50,000 tonnes/year must report publicly
+
+### UN Sustainable Development Goals (SDGs)
+- SDG 12.3: Halve per capita global food waste at retail and consumer levels by 2030
+- SDG 13: Climate action — food waste contributes 8-10% of global GHG emissions
+- SDG 2: Zero Hunger — food rescue and donation contribute to this goal
+
+### EU Taxonomy (relevant for UK post-Brexit supply chains)
+- Circular economy transition qualifies for sustainable finance taxonomy
+- Food waste prevention is a "substantial contribution" activity
+
+## CO2 EMISSION FACTORS
+
+Source: WRAP (Waste & Resources Action Programme) UK, 2023
+
+By category (kg CO2 equivalent per kg food waste prevented):
+- Beef:           26.5 kg CO2e/kg
+- Lamb:           23.8 kg CO2e/kg
+- Pork:           7.6  kg CO2e/kg
+- Chicken:        5.4  kg CO2e/kg
+- Fish (farmed):  5.1  kg CO2e/kg
+- Dairy (milk):   3.2  kg CO2e/kg
+- Cheese:         8.5  kg CO2e/kg
+- Fresh produce:  1.4  kg CO2e/kg
+- Bread/Bakery:   1.3  kg CO2e/kg
+- Ready meals:    3.8  kg CO2e/kg
+
+WEIGHTED AVERAGE ACROSS SUPERMARKET CATEGORIES: 3.3 kg CO2e/kg
+(This is the standard value used in the waste engine ESG calculations)
+
+## ESG METRICS — DEFINITIONS AND CALCULATIONS
+
+### Food Saved (kg)
+  food_saved_kg = units_saved × weight_per_unit_kg
+
+### CO2 Equivalent Avoided
+  co2_avoided_kg = food_saved_kg × emission_factor
+  (Use 3.3 as category-weighted default; use category-specific if available)
+
+### Meals Equivalent
+  meals = food_saved_kg / 0.300
+  (Based on average UK meal weight of 300g — Source: WRAP 2022)
+
+### Waste Value Prevented (£)
+  waste_value_prevented = units_saved × unit_cost
+  (Note: this is the cost of goods, not retail price)
+
+### Social Value
+  social_value = waste_value_prevented × 2.2
+  (Source: New Economics Foundation — true cost of food waste to society)
+
+### Trees Equivalent
+  trees_equivalent = co2_avoided_kg / 21
+  (1 mature tree absorbs ~21 kg CO2/year — UK Forestry Commission)
+
+## REPORTING PERIODS AND CADENCE
+
+- Daily:   Waste events logged, decisions executed
+- Weekly:  Store-level waste reduction summary
+- Monthly: Network-level ESG dashboard, trend analysis
+- Annual:  WRAP/Courtauld compliance report, Scope 3 calculation
+
+## BASELINE TARGETS (per store per year)
+
+Assume 5 stores, UK mid-size supermarket:
+- Waste target: <0.5% of perishable turnover value
+- CO2 reduction: >15 tonnes CO2e/year vs prior year
+- Food rescue rate: >30% of items that would otherwise be wasted
+- Discount clearance rate: >85% of marked-down items sold
+
+## DONATION GUIDELINES
+
+Food banks and community organisations:
+- Must have food hygiene certification (Level 2+)
+- Temperature-controlled collection required for chilled items
+- Minimum 24h remaining shelf life for donations (food bank policy)
+- Donation value can be claimed for Gift Aid (if registered charity partner)
+- FareShare and OLIO are recommended national partners
+
+ESG credit for donations:
+- Donation prevented waste = full CO2 credit applies
+- Tax benefit (UK): cost of donated food is deductible business expense
+- Reputational value: community benefit scoring for ESG reports
+
+## WASTE REDUCTION MATURITY MODEL
+
+Level 1 — Reactive: manual yellow stickers, no data-driven decisions
+Level 2 — Proactive: rule-based alerts, some historical data use
+Level 3 — Predictive: demand forecasting, automated discount recommendations
+Level 4 — Autonomous (THIS SYSTEM): AI multi-agent, RAG-powered, real-time optimization
+Level 5 — Collaborative: cross-retailer data sharing, industry-level optimization
+
+This engine operates at Level 4, with ambitions toward Level 5 via network intelligence.

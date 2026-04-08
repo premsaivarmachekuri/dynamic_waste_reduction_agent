@@ -1,0 +1,144 @@
+# agents_config.yaml — Agent orchestration configuration
+# Defines agent pipeline, model settings, and tool access
+
+system:
+  name: "Dynamic Waste Reduction Engine"
+  version: "2.0.0"
+  hackathon: "Google AI Hackathon 2026"
+
+model_defaults:
+  primary: "gemini-2.5-flash"
+  fallback: "gemini-2.0-flash"
+  temperature: 0.2
+  max_output_tokens: 8192
+
+orchestrator:
+  name: "WasteReductionOrchestrator"
+  model: "gemini-2.5-flash"
+  pipeline:
+    - phase: 1
+      agent: "DemandForecastingAgent"
+      parallel: false
+      required: true
+    - phase: 2
+      agent: "WasteRiskAgent"
+      parallel: false
+      required: true
+    - phase: 3a
+      agent: "PricingAgent"
+      parallel: true  # runs with TransferAgent
+      required: true
+    - phase: 3b
+      agent: "TransferAgent"
+      parallel: true  # runs with PricingAgent
+      required: false
+    - phase: 4
+      agent: "DecisionOptimizationAgent"
+      parallel: false
+      required: true
+    - phase: 5
+      agent: "ActionExecutor"
+      parallel: false
+      required: true
+    - phase: 6
+      agent: "ExplanationAgent"
+      parallel: false
+      required: true
+
+agents:
+  DemandForecastingAgent:
+    model: "gemini-2.5-flash"
+    tools:
+      - get_inventory_status
+      - get_weather_forecast
+      - query_historical_sales
+      - get_network_inventory_summary
+      - query_seasonal_demand_patterns
+      - query_waste_reduction_knowledge
+    rag_queries_per_run: 2
+    bq_queries_per_run: 3
+
+  WasteRiskAgent:
+    model: "gemini-2.5-flash"
+    tools:
+      - get_inventory_status
+      - get_weather_forecast
+      - get_transfer_options
+      - query_historical_sales
+      - query_waste_reduction_knowledge
+      - query_food_safety_compliance
+      - query_seasonal_demand_patterns
+    risk_model:
+      expiry_weight: 0.40
+      demand_weight: 0.25
+      historical_weight: 0.20
+      weather_weight: 0.10
+      velocity_weight: 0.05
+
+  PricingAgent:
+    model: "gemini-2.5-flash"
+    tools:
+      - get_inventory_status
+      - get_weather_forecast
+      - simulate_discount_action
+      - simulate_loyalty_coupon
+      - calculate_price_elasticity
+      - query_price_elasticity_data
+      - query_seasonal_demand_patterns
+    discount_curve: [10, 15, 20, 25, 30]
+    margin_floor_pct: 25
+
+  TransferAgent:
+    model: "gemini-2.5-flash"
+    tools:
+      - get_inventory_status
+      - get_transfer_options
+      - get_network_inventory_summary
+      - simulate_transfer_action
+      - simulate_discount_action
+      - log_decision_to_store
+      - query_transfer_logistics_rules
+      - query_food_safety_compliance
+    min_units: 8
+    min_days_expiry: 2
+    logistics_cost_per_unit: 0.18
+
+  DecisionOptimizationAgent:
+    model: "gemini-2.5-flash"
+    tools:
+      - simulate_discount_action
+      - simulate_transfer_action
+      - simulate_loyalty_coupon
+      - calculate_price_elasticity
+      - get_transfer_options
+      - log_decision_to_store
+      - query_waste_reduction_knowledge
+      - query_price_elasticity_data
+      - query_food_safety_compliance
+    constraints:
+      min_margin_pct: 25
+      max_items_per_run: 5
+
+  ActionExecutor:
+    model: "gemini-2.5-flash"
+    tools:
+      - log_decision_to_store
+      - log_decision_to_bigquery
+      - calculate_esg_metrics
+      - get_decisions_summary
+    audit_trail: true
+    bq_logging: true
+
+  ExplanationAgent:
+    model: "gemini-2.5-flash"
+    tools:
+      - calculate_esg_metrics
+      - get_decisions_summary
+      - explain_decision_with_rag_context
+      - query_waste_reduction_knowledge
+      - query_esg_calculation_standards
+      - query_price_elasticity_data
+    rag_queries_per_run: 4
+    audiences:
+      - store_managers
+      - board_executives

@@ -1,0 +1,127 @@
+TITLE: UK Food Safety Regulations for Supermarket Perishable Management
+SOURCE: Dynamic Waste Reduction Engine Knowledge Base v2.0
+CATEGORY: Compliance & Regulation
+
+## APPLICABLE LEGISLATION
+
+### Primary Legislation
+- Food Safety Act 1990 (as amended)
+- Food Safety and Hygiene (England) Regulations 2013
+- The Food Information to Consumers Regulation (EU) 1169/2011 (retained in UK law)
+- Temperature Control Regulations (England) 2006
+
+### Guidance
+- Food Standards Agency (FSA) Guidance on Date Marking
+- BRC Global Standard for Food Safety (Issue 9)
+- HACCP Principles for Retail Operations
+
+## DATE MARKING — CRITICAL DISTINCTIONS
+
+### Use By Date
+- MANDATORY for high-risk perishables: meat, fish, dairy, ready meals
+- It is ILLEGAL to sell food past its use-by date in the UK
+- Products must be removed from sale at close of business on the use-by date
+- AI system rule: flag CRITICAL status 48 hours before use-by date for high-risk categories
+
+### Best Before Date
+- Applies to less perishable items: dried goods, ambient, frozen
+- It is LEGAL to sell food past best-before date if quality is acceptable
+- Supermarkets may sell past best-before at reduced price
+- Not relevant to primary perishable categories in this system
+
+### Display Until / Sell By
+- Stock management guide only — NOT a food safety date
+- Typically 1-2 days before use-by date
+
+## TEMPERATURE REQUIREMENTS FOR STORAGE AND TRANSFER
+
+### Chilled Products (maximum temperatures)
+- Red meat, poultry, game:   ≤5°C (ideally ≤4°C)
+- Fish and seafood:          ≤4°C (ideally ≤2°C)
+- Ready meals:               ≤5°C
+- Soft cheese:               ≤5°C
+- Milk and cream:            ≤8°C (ideally ≤5°C)
+- Hard cheese:               ≤8°C
+
+### Transfer Temperature Rules
+- Chilled goods must not exceed 8°C during transport
+- Transit time limits:
+  - Fish/seafood: maximum 90 minutes unrefrigerated
+  - Meat/poultry: maximum 2 hours in insulated container
+  - Dairy: maximum 3 hours if pre-chilled
+  - Ready meals: maximum 2 hours
+- Cold chain documentation required for transfers >25km
+
+### Cold Chain Interruption
+- Any temperature exceedance must be recorded
+- "Two-hour rule": if chilled product above 8°C for >2 hours, must be discarded
+- AI system must NOT recommend transfers that exceed these time limits
+
+## DISCOUNT AND MARKDOWN RULES
+
+### Legal Requirements
+- No legal restriction on selling discounted near-expiry food (subject to use-by)
+- Yellow sticker regulations: none specific — standard labelling rules apply
+- Original price must be genuine (minimum 28 days at original price, or use "was" price rule)
+
+### Best Practice (BRC Standard)
+- Discount items must be clearly labelled with new price and original price
+- Discounted items segregated from full-price to avoid confusion
+- Staff training required: must not mix discounted and full-price batches
+
+## FOOD DONATION COMPLIANCE
+
+### Legal Framework
+- Donated food is exempt from VAT (Zero-rated supply)
+- No criminal liability for donating food of appropriate quality (Good Samaritan provision)
+- Donor must ensure food is fit for human consumption at point of donation
+
+### Recipient Requirements
+- Registered food business or approved food bank
+- Must have food safety management plan
+- Temperature-controlled collection for chilled items (≤5°C)
+- Minimum 24h remaining shelf life at point of donation (most food bank policies)
+
+### Documentation Requirements
+- Record: item, quantity, use-by date, temperature at donation, recipient, timestamp
+- Retain records 12 months minimum
+- AI system logs all donation decisions in BigQuery with full audit trail
+
+## LABELLING REQUIREMENTS FOR DISCOUNTED ITEMS
+
+Mandatory information on discount label:
+1. New price (prominent)
+2. Original price (must say "was £X.XX")
+3. Any allergy information (unchanged from original)
+4. Name of food (unchanged)
+5. Use-by date (MUST remain visible — never obscure)
+
+IMPORTANT: Use-by date must always be visible on discounted products.
+The AI decision engine must never recommend removing or obscuring date labels.
+
+## HACCP PRINCIPLES FOR WASTE REDUCTION DECISIONS
+
+Critical Control Points (CCPs) relevant to discount/transfer decisions:
+
+CCP 1: Temperature during storage — verify before discount decision
+  - If temperature has been compromised, do not discount — dispose of safely
+
+CCP 2: Temperature during transfer — validate logistics capability
+  - Must confirm refrigerated transport available before recommending transfer
+
+CCP 3: Date verification before sale
+  - System must re-verify use-by date at point of discount application
+
+CCP 4: Allergen integrity
+  - Discounted items must maintain full allergen labelling — no degraded labels
+
+## AI SYSTEM SAFETY CONSTRAINTS
+
+The waste reduction AI must enforce these hard constraints:
+
+1. NEVER recommend selling food past its use-by date
+2. NEVER recommend transfers without validating cold chain capability
+3. NEVER recommend discounts that obscure date labels
+4. NEVER recommend donations with <24h shelf life remaining
+5. NEVER recommend actions on items with compromised temperature history
+6. ALWAYS log the final status of donated/discarded items for audit compliance

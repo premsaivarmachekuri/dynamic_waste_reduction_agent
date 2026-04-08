@@ -1,0 +1,134 @@
+TITLE: Inter-Store Transfer Logistics Guide
+SOURCE: Dynamic Waste Reduction Engine Knowledge Base v2.0
+CATEGORY: Operations / Logistics
+
+## TRANSFER DECISION FRAMEWORK
+
+### When to Transfer vs. Discount
+Transfer is preferred when ALL of the following are true:
+1. Time to expiry ≥ 36 hours (to allow transit + sale window at destination)
+2. Transfer net saving > best available discount saving
+3. Cold chain transport available (refrigerated van or insulated crates)
+4. Destination store has demonstrated absorption capacity (demand > current stock)
+5. Distance ≤ 50km for ambient, ≤ 25km for chilled goods
+
+Discount is preferred when:
+- Time to expiry < 36 hours (not enough time for transfer + sale)
+- Transfer cost exceeds potential waste saving
+- Local demand is strong (weather, events)
+- Product is highly perishable (fresh fish, bakery day items)
+
+### Transfer Viability Formula
+net_saving = (units_transferred × unit_cost) - (units_transferred × logistics_cost_per_unit)
+viable = net_saving > 0 AND gross_margin_at_destination > 25%
+Standard logistics cost: £0.18 per unit (UK retail benchmark, including driver, fuel, van depreciation)
+
+## UK STORE NETWORK — DISTANCE AND ROUTING
+
+Store pair distances (approximate):
+- ST001 (London) ↔ ST002 (Birmingham):  120km — chilled transfer NOT recommended
+- ST001 (London) ↔ ST003 (Manchester):  260km — NOT viable for perishables
+- ST001 (London) ↔ ST004 (Leeds):       280km — NOT viable for perishables
+- ST001 (London) ↔ ST005 (Bristol):     120km — chilled transfer NOT recommended
+- ST002 (Birmingham) ↔ ST003 (Manchester): 85km — viable with refrigerated transport
+- ST002 (Birmingham) ↔ ST004 (Leeds):   80km — viable with refrigerated transport
+- ST002 (Birmingham) ↔ ST005 (Bristol): 80km — viable with refrigerated transport
+- ST003 (Manchester) ↔ ST004 (Leeds):   40km — optimal transfer corridor
+- ST003 (Manchester) ↔ ST005 (Bristol): 170km — marginal, ambient only
+- ST004 (Leeds) ↔ ST005 (Bristol):      200km — NOT recommended
+
+IMPORTANT NOTE: For demo purposes, the system uses simplified distance modeling.
+In production, actual logistics routing must be verified with the logistics team.
+
+## LOGISTICS COST STRUCTURE
+
+### Per-Unit Costs
+- Driver labour:    £0.06/unit (based on average 2-hour route, £18/hr)
+- Fuel/mileage:    £0.05/unit (at 30p/km, average 10 units/km throughput)
+- Vehicle:         £0.04/unit (depreciation/lease)
+- Packaging:       £0.02/unit (reusable crates amortised)
+- Admin/handling:  £0.01/unit
+- TOTAL STANDARD:  £0.18/unit
+
+### Refrigerated Premium
+- Add £0.05/unit for refrigerated transport requirement
+- Applies to: raw meat, fish, dairy, ready meals
+
+### Minimum Economic Transfer
+- Below 8 units: not economical (fixed route cost too high)
+- Below 5 units: never recommend — pick-up fee alone exceeds saving
+
+## ABSORPTION CAPACITY CALCULATION
+
+How to estimate how much stock a destination store can absorb:
+
+headroom = (daily_demand_at_destination × 3) - current_stock_at_destination
+where daily_demand = average daily sales for same or similar SKU
+
+If SKU not stocked at destination:
+  estimated_demand = average_daily_sales_of_category_at_destination × 0.7
+
+Maximum absorption cap:
+  max_units = min(headroom, 5 × daily_demand)  # don't overstock destination
+
+## COLD CHAIN MANAGEMENT PROTOCOL
+
+### Pre-Transfer Checks (AI system must validate)
+1. Temperature at source store: within acceptable range?
+2. Refrigerated vehicle available at time of transfer?
+3. Estimated transit time within cold chain tolerance?
+4. Destination store refrigeration capacity available?
+
+### Transit Temperature Monitoring
+- All transfers require temperature logging (IoT sensor or manual)
+- Maximum exceedance: 15 minutes above threshold during loading/unloading
+- If temperature breach detected: transfer must be aborted and stock assessed
+
+### Documentation Required
+- Transfer request ID (AI-generated)
+- Source batch ID and expiry date
+- Units and weight
+- Temperature at departure
+- Temperature on arrival
+- Receiving manager signature (digital)
+
+## TRANSFER APPROVAL WORKFLOW
+
+1. AI agent identifies transfer opportunity
+2. System creates transfer record (status: PENDING)
+3. Source store manager auto-notified (push/email)
+4. Logistics team schedules vehicle
+5. Receiving store manager confirms capacity (status: ACCEPTED)
+6. Transfer executed (status: IN_TRANSIT)
+7. Delivery confirmed with temperature log (status: COMPLETED)
+
+Auto-approval criteria (no manual intervention needed):
+- Saving ≥ £20 AND distance < 25km AND time to expiry ≥ 48h
+- Always require manager acknowledgment for items > £100 value
+
+## NETWORK-LEVEL TRANSFER OPTIMIZATION
+
+Daily optimization run (recommended: 6am):
+1. Query all HIGH/CRITICAL items across network
+2. Build surplus-deficit matrix (store × SKU)
+3. Solve multi-store assignment problem to maximise total net saving
+4. Generate transfer manifests for each store pair
+5. Output: ranked transfer list sorted by net saving (highest first)
+
+Monthly analysis:
+- Review which store pairs have highest transfer frequency
+- Optimize vehicle routing for common corridors
+- Negotiate dedicated logistics contract if >10 transfers/month on corridor
+
+## PARTNER LOGISTICS PROVIDERS
+
+Recommended UK cold chain logistics partners:
+- Palletline (national network, next-day pallet delivery, cold chain available)
+- TPN (The Pallet Network)
+- Own fleet for transfers < 50km
+- Third-party for ad-hoc transfers > 50km
+
+For food bank donations (different logistics):
+- FareShare: national network, will collect from stores on scheduled routes
+- OLIO: community-level, no minimum quantity, 24h notice
+- Local food banks: direct delivery, store van, 2h advance notice

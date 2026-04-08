@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoMetra | CESG Sustainability Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ── Design System: Deprogin Orange/White Theme ── */
+    :root {
+      --orange-50:  #FFF7ED;
+      --orange-100: #FFEDD5;
+      --orange-200: #FED7AA;
+      --orange-300: #FDBA74;
+      --orange-400: #FB923C;
+      --orange-500: #F97316;
+      --orange-600: #EA580C;
+      --orange-700: #C2410C;
+      --white:      #FFFFFF;
+      --gray-50:    #F9FAFB;
+      --gray-100:   #F3F4F6;
+      --gray-200:   #E5E7EB;
+      --gray-300:   #D1D5DB;
+      --gray-400:   #9CA3AF;
+      --gray-500:   #6B7280;
+      --gray-600:   #4B5563;
+      --gray-700:   #374151;
+      --gray-800:   #1F2937;
+      --gray-900:   #111827;
+      --green-100:  #DCFCE7;
+      --green-500:  #22C55E;
+      --green-600:  #16A34A;
+      --green-700:  #15803D;
+      --red-100:    #FEE2E2;
+      --red-500:    #EF4444;
+      --red-700:    #B91C1C;
+      --amber-100:  #FEF3C7;
+      --amber-500:  #F59E0B;
+      --amber-700:  #92400E;
+      --blue-100:   #DBEAFE;
+      --blue-500:   #3B82F6;
+      --blue-700:   #1E40AF;
+      --shadow-sm:  0 1px 2px rgba(0,0,0,0.05);
+      --shadow:     0 1px 3px rgba(0,0,0,0.10), 0 1px 2px -1px rgba(0,0,0,0.10);
+      --shadow-md:  0 4px 6px -1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(0,0,0,0.10);
+      --shadow-lg:  0 10px 15px -3px rgba(0,0,0,0.10), 0 4px 6px -4px rgba(0,0,0,0.10);
+      --shadow-xl:  0 20px 25px -5px rgba(0,0,0,0.10), 0 8px 10px -6px rgba(0,0,0,0.10);
+      --radius:     12px;
+      --radius-lg:  16px;
+      --radius-xl:  24px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ═══════════════════════════════════════
+       SIDEBAR
+    ═══════════════════════════════════════ */
+    .sidebar {
+      width: 300px;
+      background: var(--white);
+      border-right: 1px solid var(--gray-200);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-md);
+      z-index: 10;
+    }
+
+    /* Sidebar Header / Brand */
+    .sidebar-header {
+      background: linear-gradient(145deg, var(--orange-500) 0%, var(--orange-700) 100%);
+      padding: 2rem 1.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      margin-bottom: 0.5rem;
+    }
+    .logo-svg { width: 44px; height: 44px; flex-shrink: 0; }
+    .app-name {
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: white;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+    .app-sub {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+    }
+    .cesg-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 20px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.7rem;
+      color: white;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Sidebar Body */
+    .sidebar-body { padding: 1.5rem; flex: 1; overflow-y: auto; }
+
+    .field-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--gray-400);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .field-label + * { margin-top: 0; }
+    .field-group { margin-top: 1.25rem; }
+    .field-group:first-child { margin-top: 0; }
+
+    .sidebar select {
+      width: 100%;
+      padding: 0.7rem 2.5rem 0.7rem 1rem;
+      background: var(--gray-50);
+      border: 1.5px solid var(--gray-200);
+      color: var(--gray-700);
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+    }
+    .sidebar select:focus {
+      border-color: var(--orange-500);
+      box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+    }
+
+    .run-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--orange-500), var(--orange-700));
+      color: white;
+      border: none;
+      padding: 0.9rem 1.5rem;
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-top: 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(249,115,22,0.4);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+    .run-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(249,115,22,0.5);
+    }
+    .run-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ESG Score Widget */
+    .score-widget {
+      background: linear-gradient(135deg, var(--orange-50), var(--white));
+      border: 1.5px solid var(--orange-200);
+      border-radius: var(--radius-lg);
+      padding: 1.2rem;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    .score-heading { font-size: 0.68rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.5rem; }
+    .score-main { font-size: 2.2rem; font-weight: 900; color: var(--orange-600); line-height: 1; }
+    .score-sub { font-size: 0.72rem; color: var(--gray-400); margin-top: 0.2rem; margin-bottom: 0.9rem; }
+
+    .score-row { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--gray-400); margin-bottom: 3px; }
+    .score-row span:last-child { font-weight: 700; color: var(--gray-600); }
+    .mini-bar { background: var(--gray-200); border-radius: 4px; height: 5px; overflow: hidden; margin-bottom: 0.6rem; }
+    .mini-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
+
+    /* Sidebar Footer */
+    .sidebar-footer {
+      padding: 0.9rem 1.5rem;
+      border-top: 1px solid var(--gray-100);
+    }
+    .powered-txt {
+      font-size: 0.68rem;
+      color: var(--gray-400);
+      text-align: center;
+      line-height: 1.6;
+    }
+    .powered-txt strong { color: var(--orange-600); }
+
+    /* ═══════════════════════════════════════
+       MAIN AREA
+    ═══════════════════════════════════════ */
+    .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+
+    /* Sticky Top Bar */
+    .topbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 1.1rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+    .topbar-title { font-size: 1.3rem; font-weight: 800; color: var(--gray-900); }
+    .topbar-title span { color: var(--orange-500); }
+    .topbar-sub { font-size: 0.82rem; color: var(--gray-400); margin-top: 0.15rem; }
+    .date-pill {
+      background: var(--orange-50);
+      border: 1.5px solid var(--orange-200);
+      border-radius: 20px;
+      padding: 0.4rem 1rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--orange-700);
+      white-space: nowrap;
+    }
+
+    /* Weather Alert Strip */
+    .weather-alert {
+      background: var(--amber-100);
+      border-left: 4px solid var(--amber-500);
+      padding: 0.75rem 2.5rem;
+      font-size: 0.84rem;
+      color: var(--amber-700);
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+
+    /* Page Body */
+    .page-body { padding: 1.75rem 2.5rem 4rem; }
+
+    /* ═══════════════════════════════════════
+       IMPACT STRIP (top KPI cards)
+    ═══════════════════════════════════════ */
+    .impact-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .kpi-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 1.2rem 1.3rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 3px 3px 0 0;
+    }
+    .kpi-card.default::after  { background: linear-gradient(90deg, var(--orange-400), var(--orange-600)); }
+    .kpi-card.danger::after   { background: linear-gradient(90deg, #FCA5A5, var(--red-500)); }
+    .kpi-card.warning::after  { background: linear-gradient(90deg, #FCD34D, var(--amber-500)); }
+    .kpi-card.success::after  { background: linear-gradient(90deg, #86EFAC, var(--green-500)); }
+    .kpi-card.info::after     { background: linear-gradient(90deg, #93C5FD, var(--blue-500)); }
+    .kpi-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+      border-color: var(--orange-300);
+    }
+    .kpi-icon { font-size: 1.3rem; margin-bottom: 0.4rem; }
+    .kpi-val  { font-size: 1.9rem; font-weight: 800; line-height: 1.1; color: var(--gray-900); margin-bottom: 0.3rem; }
+    .kpi-val.danger  { color: var(--red-500); }
+    .kpi-val.warning { color: var(--amber-500); }
+    .kpi-val.success { color: var(--green-600); }
+    .kpi-val.info    { color: var(--blue-500); }
+    .kpi-lbl  { font-size: 0.7rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.1em; }
+    .kpi-desc { font-size: 0.7rem; color: var(--gray-400); margin-top: 0.15rem; }
+
+    /* ═══════════════════════════════════════
+       TABS
+    ═══════════════════════════════════════ */
+    .panel {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .tab-nav {
+      display: flex;
+      background: var(--gray-50);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0.5rem;
+      gap: 0.25rem;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 0.7rem 0.75rem;
+      border: none;
+      background: transparent;
+      color: var(--gray-500);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: all 0.22s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      letter-spacing: 0.01em;
+    }
+    .tab-btn:hover { background: var(--white); color: var(--gray-700); }
+    .tab-btn.active {
+      background: var(--white);
+      color: var(--orange-600);
+      box-shadow: var(--shadow);
+    }
+    .tab-pane { display: none; padding: 1.5rem; }
+    .tab-pane.active { display: block; animation: slideIn 0.3s ease; }
+
+    /* Section titles */
+    .sec-head { margin-bottom: 1rem; }
+    .sec-title { font-size: 1rem; font-weight: 700; color: var(--gray-800); }
+    .sec-sub   { font-size: 0.8rem; color: var(--gray-400); margin-top: 0.2rem; }
+
+    /* ═══════════════════════════════════════
+       INVENTORY CARDS — 2-column grid
+    ═══════════════════════════════════════ */
+    .inv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .inv-card {
+      background: var(--gray-50);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.1rem;
+      transition: all 0.22s ease;
+    }
+    .inv-card:hover {
+      background: var(--white);
+      border-color: var(--orange-300);
+      box-shadow: var(--shadow-md);
+    }
+    .inv-card.risk-CRITICAL { border-left: 4px solid var(--red-500); }
+    .inv-card.risk-HIGH     { border-left: 4px solid var(--amber-500); }
+    .inv-card.risk-MEDIUM   { border-left: 4px solid var(--blue-500); }
+    .inv-card.risk-LOW      { border-left: 4px solid var(--green-500); }
+
+    .inv-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.7rem; }
+    .inv-name { font-size: 0.9rem; font-weight: 700; color: var(--gray-800); }
+    .inv-cat  { font-size: 0.72rem; color: var(--gray-400); margin-top: 0.1rem; }
+
+    .risk-pill {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      padding: 0.22rem 0.65rem; border-radius: 20px;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .pill-CRITICAL { background: var(--red-100);   color: var(--red-700); }
+    .pill-HIGH     { background: var(--amber-100); color: var(--amber-700); }
+    .pill-MEDIUM   { background: var(--blue-100);  color: var(--blue-700); }
+    .pill-LOW      { background: var(--green-100); color: var(--green-700); }
+
+    .inv-stats {
+      display: grid; grid-template-columns: repeat(2,1fr);
+      gap: 0.5rem 0.75rem; margin-bottom: 0.7rem;
+    }
+    .stat-v { font-size: 1rem; font-weight: 700; color: var(--gray-800); }
+    .stat-l { font-size: 0.68rem; color: var(--gray-400); margin-top: 0.05rem; }
+    .stat-v.accent { color: var(--orange-600); }
+
+    .prog-bg   { background: var(--gray-200); border-radius: 4px; height: 5px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+    .expiry-hint {
+      font-size: 0.68rem; color: var(--gray-400); margin-top: 0.4rem;
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+
+    /* ═══════════════════════════════════════
+       AI DECISION CARDS
+    ═══════════════════════════════════════ */
+    .dec-card {
+      background: var(--gray-50);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 0.75rem;
+      transition: all 0.22s ease;
+    }
+    .dec-card:hover { background: var(--white); box-shadow: var(--shadow-md); }
+
+    .dec-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.7rem; }
+    .action-tag {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: linear-gradient(135deg, var(--orange-500), var(--orange-700));
+      color: white; border-radius: 8px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .save-chip {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      background: var(--green-100); color: var(--green-700);
+      border-radius: 20px; padding: 0.28rem 0.8rem;
+      font-size: 0.78rem; font-weight: 700;
+    }
+    .dec-product { font-size: 1rem; font-weight: 700; color: var(--gray-800); margin-top: 0.4rem; }
+    .dec-detail  { font-size: 0.86rem; color: var(--gray-500); margin-bottom: 0.6rem; }
+    .reason-box {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+      font-size: 0.81rem; color: var(--gray-500); line-height: 1.7;
+    }
+    .reason-label {
+      font-size: 0.68rem; font-weight: 700; color: var(--orange-600);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem;
+    }
+
+    /* Results header row */
+    .results-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;
+    }
+
+    /* ═══════════════════════════════════════
+       ESG / CESG TAB
+    ═══════════════════════════════════════ */
+    .cesg-hero {
+      background: linear-gradient(135deg, var(--orange-500) 0%, var(--orange-700) 100%);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      color: white; gap: 1rem;
+    }
+    .cesg-hero-left .hero-title { font-size: 1.1rem; font-weight: 800; }
+    .cesg-hero-left .hero-sub   { font-size: 0.8rem; opacity: 0.85; margin-top: 0.2rem; }
+    .cesg-progress-block { text-align: right; flex-shrink: 0; }
+    .cpb-label { font-size: 0.72rem; opacity: 0.8; margin-bottom: 0.4rem; }
+    .cpb-bar   { width: 180px; background: rgba(255,255,255,0.25); border-radius: 6px; height: 8px; }
+    .cpb-fill  { height: 8px; border-radius: 6px; background: white; transition: width 1.2s ease; }
+    .cpb-pct   { font-size: 1.4rem; font-weight: 900; margin-top: 0.3rem; }
+
+    .esg-grid {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .esg-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.22s ease;
+    }
+    .esg-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--orange-300); }
+    .esg-icon  { font-size: 2rem; margin-bottom: 0.6rem; }
+    .esg-val   { font-size: 1.9rem; font-weight: 800; color: var(--orange-600); line-height: 1; margin-bottom: 0.3rem; }
+    .esg-lbl   { font-size: 0.72rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.08em; }
+    .esg-desc  { font-size: 0.7rem; color: var(--gray-400); margin-top: 0.25rem; }
+
+    .info-box {
+      background: var(--orange-50);
+      border: 1.5px solid var(--orange-200);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      font-size: 0.83rem; color: var(--gray-600); line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════
+       TRANSFER HUB
+    ═══════════════════════════════════════ */
+    .transfer-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .transfer-col-head {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+    .transfer-col-head .col-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .trx-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.1rem;
+      margin-bottom: 0.6rem;
+      transition: all 0.2s ease;
+    }
+    .trx-card:hover { border-color: var(--orange-300); box-shadow: var(--shadow-md); }
+    .trx-card.incoming { border-left: 4px solid var(--blue-500); }
+    .trx-card.outgoing { border-left: 4px solid var(--orange-500); }
+    .trx-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+    .trx-product { font-size: 0.9rem; font-weight: 700; color: var(--gray-800); }
+    .trx-id      { font-size: 0.68rem; color: var(--gray-400); font-family: monospace; }
+    .trx-route   { font-size: 0.78rem; color: var(--gray-500); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.3rem; }
+    .trx-meta    { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    .trx-units   { font-size: 0.75rem; background: var(--gray-100); color: var(--gray-600); border-radius: 6px; padding: 0.2rem 0.6rem; font-weight: 600; }
+    .trx-saving  { font-size: 0.75rem; background: var(--green-100); color: var(--green-700); border-radius: 6px; padding: 0.2rem 0.6rem; font-weight: 600; }
+    .trx-time    { font-size: 0.7rem; color: var(--gray-400); margin-left: auto; }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      border-radius: 20px; padding: 0.2rem 0.65rem;
+      font-size: 0.7rem; font-weight: 700;
+    }
+    .s-PENDING   { background: var(--amber-100); color: var(--amber-700); }
+    .s-ACCEPTED  { background: var(--blue-100);  color: var(--blue-700); }
+    .s-REJECTED  { background: var(--red-100);   color: var(--red-700); }
+    .s-COMPLETED { background: var(--green-100); color: var(--green-700); }
+    .accept-btn {
+      border: none; cursor: pointer; border-radius: 8px;
+      padding: 0.3rem 0.75rem; font-size: 0.75rem; font-weight: 700;
+      font-family: 'Inter', sans-serif; transition: all 0.2s;
+    }
+    .accept-btn.yes { background: var(--green-100); color: var(--green-700); }
+    .accept-btn.yes:hover { background: var(--green-500); color: white; }
+    .accept-btn.no  { background: var(--red-100);   color: var(--red-700); }
+    .accept-btn.no:hover  { background: var(--red-500);   color: white; }
+
+    /* ── Transfer CTA on AI cards ── */
+    .xfer-action-wrap {
+      margin-top: 0.85rem;
+      background: var(--orange-50);
+      border: 1.5px solid var(--orange-200);
+      border-radius: var(--radius);
+      padding: 0.75rem 0.9rem;
+    }
+    .xfer-dest-label {
+      font-size: 0.72rem; font-weight: 700; color: var(--orange-700);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem;
+    }
+    .xfer-dest-store {
+      font-size: 0.85rem; font-weight: 600; color: var(--gray-700); margin-bottom: 0.6rem;
+    }
+    .xfer-btn {
+      display: flex; align-items: center; justify-content: center; gap: 0.45rem;
+      width: 100%;
+      background: linear-gradient(135deg, var(--orange-500), var(--orange-700));
+      color: white; border: none;
+      border-radius: var(--radius); padding: 0.65rem 1rem;
+      font-size: 0.88rem; font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer; transition: all 0.25s;
+      box-shadow: 0 3px 10px rgba(249,115,22,0.35);
+    }
+    .xfer-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(249,115,22,0.5);
+    }
+    .xfer-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+    .xfer-done {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--green-100); color: var(--green-700);
+      border-radius: var(--radius); padding: 0.65rem 1rem;
+      font-size: 0.85rem; font-weight: 700;
+    }
+    /* Legacy small button kept for non-transfer actions (unused but safe) */
+    .xfer-btn-sm {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      border: 1.5px solid var(--orange-400);
+      background: var(--orange-50); color: var(--orange-700);
+      border-radius: 8px; padding: 0.35rem 0.85rem;
+      font-size: 0.78rem; font-weight: 700; font-family: 'Inter', sans-serif;
+      cursor: pointer; transition: all 0.2s;
+    }
+
+    /* Transfer Hub badge on tab */
+    .tab-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--orange-500); color: white;
+      border-radius: 10px; padding: 0 6px; min-width: 18px; height: 18px;
+      font-size: 0.65rem; font-weight: 800; margin-left: 0.3rem;
+    }
+
+    /* ═══════════════════════════════════════
+       LOADER & EMPTY STATES
+    ═══════════════════════════════════════ */
+    .loader-wrap { display: none; padding: 3rem; text-align: center; }
+    .spinner {
+      width: 46px; height: 46px;
+      border: 4px solid var(--orange-100);
+      border-top-color: var(--orange-500);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    .loader-msg { font-size: 0.875rem; color: var(--gray-500); font-weight: 500; max-width: 320px; margin: 0 auto; line-height: 1.6; }
+
+    .empty-state { padding: 3rem; text-align: center; }
+    .empty-icon  { font-size: 3rem; margin-bottom: 0.75rem; }
+    .empty-title { font-size: 1rem; font-weight: 700; color: var(--gray-600); margin-bottom: 0.3rem; }
+    .empty-sub   { font-size: 0.84rem; color: var(--gray-400); max-width: 300px; margin: 0 auto; line-height: 1.6; }
+
+    /* ═══════════════════════════════════════
+       ANIMATIONS
+    ═══════════════════════════════════════ */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .fade-up { animation: fadeUp 0.45s ease both; }
+    .fade-up:nth-child(1) { animation-delay: 0.00s; }
+    .fade-up:nth-child(2) { animation-delay: 0.05s; }
+    .fade-up:nth-child(3) { animation-delay: 0.10s; }
+    .fade-up:nth-child(4) { animation-delay: 0.15s; }
+    .fade-up:nth-child(5) { animation-delay: 0.20s; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+  <aside class="sidebar">
+
+    <div class="sidebar-header">
+      <div class="logo-row">
+        <!-- EcoMetra SVG Logo -->
+        <svg class="logo-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="20" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+          <!-- Globe arcs -->
+          <path d="M22 6C13.163 6 6 13.163 6 22C6 30.837 13.163 38 22 38" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <path d="M22 6C30.837 6 38 13.163 38 22C38 30.837 30.837 38 22 38" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 3"/>
+          <!-- Leaf -->
+          <path d="M22 20.5C22 20.5 15.5 16.5 13.5 22.5C11.5 28.5 18 33 22 31C26 29 30.5 25 28.5 19.5C26.5 14 22 20.5 22 20.5Z" fill="white" opacity="0.95"/>
+          <!-- Leaf vein -->
+          <path d="M22 20.5L20 29" stroke="rgba(234,88,12,0.75)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="app-name">EcoMetra</span>
+      </div>
+      <div class="app-sub">Smart Sustainability Platform</div>
+      <div class="cesg-badge">🌿 CESG Sustainability Initiative</div>
+    </div>
+
+    <div class="sidebar-body">
+
+      <div class="field-group">
+        <div class="field-label">Select Location</div>
+        <select id="storeSelect">
+          {% for id, name in stores.items() %}
+          <option value="{{ id }}">{{ name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <button class="run-btn" id="runBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        Run AI Analysis
+      </button>
+
+      <!-- ESG Score Card -->
+      <div class="score-widget">
+        <div class="score-heading">ESG Performance Rating</div>
+        <div class="score-main">B+</div>
+        <div class="score-sub">Good — improving monthly</div>
+
+        <div class="score-row"><span>Environmental</span><span>72%</span></div>
+        <div class="mini-bar"><div class="mini-fill" style="width:72%; background:var(--green-500);"></div></div>
+
+        <div class="score-row"><span>Social Impact</span><span>68%</span></div>
+        <div class="mini-bar"><div class="mini-fill" style="width:68%; background:var(--orange-500);"></div></div>
+
+        <div class="score-row"><span>Governance</span><span>81%</span></div>
+        <div class="mini-bar" style="margin-bottom:0;"><div class="mini-fill" style="width:81%; background:var(--blue-500);"></div></div>
+      </div>
+
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="powered-txt">
+        Powered by <strong>Deprogin</strong><br>
+        Built on Google ADK · Gemini 2.0 Flash
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ═══════════════════ MAIN ═══════════════════ -->
+  <main class="main">
+
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">Waste <span>Reduction</span> Intelligence</div>
+        <div class="topbar-sub" id="subHead">Loading store data…</div>
+      </div>
+      <div class="date-pill">📅 {{ today_date }}</div>
+    </div>
+
+    <!-- Weather Strip -->
+    <div class="weather-alert" id="weatherAlert"></div>
+
+    <div class="page-body">
+
+      <!-- KPI Strip -->
+      <div class="impact-strip" id="kpiStrip">
+        <div class="kpi-card danger fade-up">
+          <div class="kpi-icon">🚨</div>
+          <div class="kpi-val danger" id="kCrit">—</div>
+          <div class="kpi-lbl">Urgent Action</div>
+          <div class="kpi-desc">Expiring today</div>
+        </div>
+        <div class="kpi-card warning fade-up">
+          <div class="kpi-icon">⚠️</div>
+          <div class="kpi-val warning" id="kHigh">—</div>
+          <div class="kpi-lbl">High Alert</div>
+          <div class="kpi-desc">Expiring very soon</div>
+        </div>
+        <div class="kpi-card default fade-up">
+          <div class="kpi-icon">💷</div>
+          <div class="kpi-val" id="kWaste">£—</div>
+          <div class="kpi-lbl">Value at Risk</div>
+          <div class="kpi-desc">Preventable waste</div>
+        </div>
+        <div class="kpi-card info fade-up">
+          <div class="kpi-icon">📦</div>
+          <div class="kpi-val info" id="kTotal">—</div>
+          <div class="kpi-lbl">Products Tracked</div>
+          <div class="kpi-desc">Under AI monitoring</div>
+        </div>
+        <div class="kpi-card default fade-up">
+          <div class="kpi-icon">🌡️</div>
+          <div class="kpi-val" id="kTemp">—</div>
+          <div class="kpi-lbl" id="kImp">Weather Impact</div>
+          <div class="kpi-desc">Live forecast signal</div>
+        </div>
+      </div>
+
+      <!-- Tab Panel -->
+      <div class="panel">
+
+        <div class="tab-nav">
+          <button class="tab-btn active" id="tab-btn-inventory" onclick="switchTab('inventory')">
+            📦 Products at Risk
+          </button>
+          <button class="tab-btn" id="tab-btn-ai" onclick="switchTab('ai')">
+            🤖 AI Recommendations
+          </button>
+          <button class="tab-btn" id="tab-btn-transfers" onclick="switchTab('transfers')">
+            🚚 Transfer Hub <span class="tab-badge" id="transferBadge" style="display:none;">0</span>
+          </button>
+          <button class="tab-btn" id="tab-btn-esg" onclick="switchTab('esg'); loadEsgFromTransfers();">
+            🌿 ESG Impact Report
+          </button>
+        </div>
+
+        <!-- ── Inventory Pane ── -->
+        <div class="tab-pane active" id="pane-inventory">
+          <div class="sec-head">
+            <div class="sec-title">Products Needing Attention</div>
+            <div class="sec-sub">
+              Ranked by urgency — AI monitors expiry risk, projected sales, and financial exposure in real time.
+            </div>
+          </div>
+          <div id="inventoryList">
+            <div class="empty-state">
+              <div class="empty-icon">⏳</div>
+              <div class="empty-title">Loading inventory…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── AI Pane ── -->
+        <div class="tab-pane" id="pane-ai">
+          <div class="empty-state" id="aiEmpty">
+            <div class="empty-icon">🤖</div>
+            <div class="empty-title">Ready to run analysis</div>
+            <div class="empty-sub">
+              Click <strong>"Run AI Analysis"</strong> in the sidebar. The AI engine will scan all at-risk products, cross-check weather signals, and generate prioritised recommendations within seconds.
+            </div>
+          </div>
+
+          <div class="loader-wrap" id="aiLoader">
+            <div class="spinner"></div>
+            <div class="loader-msg">
+              AI agents are scanning inventory, checking weather forecasts, and computing the best possible actions to prevent waste…
+            </div>
+          </div>
+
+          <div id="aiResults" style="display:none;">
+            <div class="results-header">
+              <div>
+                <div class="sec-title" style="color:var(--green-600);">✅ Recommendations Ready</div>
+                <div class="sec-sub">Projected savings shown per item — initiate transfers to confirm value</div>
+              </div>
+            </div>
+            <div id="aiContent"></div>
+          </div>
+        </div>
+
+        <!-- ── Transfer Hub Pane ── -->
+        <div class="tab-pane" id="pane-transfers">
+          <div class="sec-head" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.75rem;">
+            <div>
+              <div class="sec-title">🚚 Store Transfer Hub</div>
+              <div class="sec-sub">Track stock you've sent to other stores and incoming requests — synced across all locations</div>
+            </div>
+            <button onclick="loadTransfers()" style="border:1.5px solid var(--gray-200); background:var(--gray-50); border-radius:8px; padding:0.4rem 0.9rem; font-size:0.8rem; font-weight:600; color:var(--gray-600); cursor:pointer; font-family:'Inter',sans-serif;">
+              ↻ Refresh
+            </button>
+          </div>
+
+          <!-- Confirmed Savings Summary (hidden until transfers exist) -->
+          <div id="hubSummary" style="display:none; background:linear-gradient(135deg,var(--green-100),#f0fdf4); border:1.5px solid #86EFAC; border-radius:var(--radius-lg); padding:1rem 1.25rem; margin-bottom:1.25rem; gap:2rem; align-items:center; flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <span style="font-size:1.4rem;">💷</span>
+              <div>
+                <div style="font-size:1.4rem;font-weight:800;color:var(--green-700);" id="hubTotalGbp">£0</div>
+                <div style="font-size:0.7rem;font-weight:700;color:var(--green-600);text-transform:uppercase;letter-spacing:0.08em;">Total Confirmed Savings</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+              <div style="text-align:center;">
+                <div style="font-size:1.1rem;font-weight:800;color:var(--gray-700);" id="hubTotalTransfers">0</div>
+                <div style="font-size:0.68rem;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.08em;">Transfers</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="font-size:1.1rem;font-weight:800;color:var(--gray-700);" id="hubTotalKg">0 kg</div>
+                <div style="font-size:0.68rem;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.08em;">Food Rescued</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="font-size:1.1rem;font-weight:800;color:var(--gray-700);" id="hubTotalCo2">0 kg</div>
+                <div style="font-size:0.68rem;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.08em;">CO₂ Avoided</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="transfer-columns">
+            <!-- Outgoing -->
+            <div>
+              <div class="transfer-col-head">
+                <div class="col-dot" style="background:var(--orange-500);"></div>
+                Transfers Sent by This Store
+              </div>
+              <div id="outgoingList">
+                <div class="empty-state" style="padding:1.5rem;">
+                  <div class="empty-icon" style="font-size:2rem;">📤</div>
+                  <div class="empty-title" style="font-size:0.9rem;">No outgoing transfers yet</div>
+                  <div class="empty-sub" style="font-size:0.78rem;">Run AI Analysis and click "Initiate Transfer" on any transfer recommendation.</div>
+                </div>
+              </div>
+            </div>
+            <!-- Incoming -->
+            <div>
+              <div class="transfer-col-head">
+                <div class="col-dot" style="background:var(--blue-500);"></div>
+                Incoming Stock from Other Stores
+              </div>
+              <div id="incomingList">
+                <div class="empty-state" style="padding:1.5rem;">
+                  <div class="empty-icon" style="font-size:2rem;">📥</div>
+                  <div class="empty-title" style="font-size:0.9rem;">No incoming transfers</div>
+                  <div class="empty-sub" style="font-size:0.78rem;">When another store sends stock your way, it will appear here for you to accept or reject.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── ESG Impact Pane ── -->
+        <div class="tab-pane" id="pane-esg">
+
+          <div class="cesg-hero">
+            <div class="cesg-hero-left">
+              <div class="hero-title">🌱 CESG Sustainability Initiative</div>
+              <div class="hero-sub">Corporate Environmental, Social &amp; Governance — Post-Transfer Impact Report</div>
+            </div>
+            <div class="cesg-progress-block">
+              <div class="cpb-label">Annual Target Progress</div>
+              <div class="cpb-bar"><div class="cpb-fill" id="cesgFill" style="width:0%;"></div></div>
+              <div class="cpb-pct" id="cesgPct">—%</div>
+            </div>
+          </div>
+
+          <div class="esg-grid">
+            <div class="esg-card">
+              <div class="esg-icon">💷</div>
+              <div class="esg-val" id="esgGbp">£0</div>
+              <div class="esg-lbl">Confirmed Saving</div>
+              <div class="esg-desc">Value recovered via transfers &amp; actions</div>
+            </div>
+            <div class="esg-card">
+              <div class="esg-icon">🥩</div>
+              <div class="esg-val" id="esgKg">0 kg</div>
+              <div class="esg-lbl">Food Rescued</div>
+              <div class="esg-desc">Stock weight diverted from landfill</div>
+            </div>
+            <div class="esg-card">
+              <div class="esg-icon">🌍</div>
+              <div class="esg-val" id="esgCo2">0 kg</div>
+              <div class="esg-lbl">CO₂ Avoided</div>
+              <div class="esg-desc">Greenhouse emissions prevented</div>
+            </div>
+            <div class="esg-card">
+              <div class="esg-icon">🍽️</div>
+              <div class="esg-val" id="esgMeals">0</div>
+              <div class="esg-lbl">Meals Equivalent</div>
+              <div class="esg-desc">Equivalent meals this food represents</div>
+            </div>
+          </div>
+
+          <div class="info-box" id="esgInfoBox">
+            💡 <strong style="color:var(--orange-700);">How this is calculated:</strong>
+            These figures are computed from all confirmed and in-progress transfers initiated via the Transfer Hub.
+            Complete transfers to see live ESG impact populate here — each action directly contributes to Deprogin's CESG commitments.
+          </div>
+
+        </div>
+
+      </div><!-- .panel -->
+
+    </div><!-- .page-body -->
+  </main>
+
+  <script>
+    // ─── Helpers ───────────────────────────────────────────────────────────────
+    function riskCard(r) {
+      return `risk-${r}`;
+    }
+    function riskPill(r, days) {
+      const icons = { CRITICAL:'🔴', HIGH:'🟠', MEDIUM:'🟡', LOW:'🟢' };
+      const labels = {
+        CRITICAL: `Urgent — ${days}d left`,
+        HIGH:     `High Risk — ${days}d left`,
+        MEDIUM:   `Monitor — ${days}d left`,
+        LOW:      `Stable — ${days}d left`,
+      };
+      return `<span class="risk-pill pill-${r}">${icons[r]} ${labels[r]}</span>`;
+    }
+    function progColor(pct) {
+      return pct > 60 ? 'var(--red-500)' : pct > 30 ? 'var(--amber-500)' : 'var(--green-500)';
+    }
+    function actionIcon(a) {
+      return { DISCOUNT:'🏷️', TRANSFER:'🚚', DONATE:'🤝', LOYALTY_COUPON:'💌' }[a] || '⚡';
+    }
+    function actionName(a) {
+      return { DISCOUNT:'Price Markdown', TRANSFER:'Store Transfer', DONATE:'Donate to Food Bank', LOYALTY_COUPON:'Loyalty Offer' }[a] || a;
+    }
+
+    // ─── Tab Switch ────────────────────────────────────────────────────────────
+    function switchTab(id) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      document.getElementById(`tab-btn-${id}`).classList.add('active');
+      document.getElementById(`pane-${id}`).classList.add('active');
+    }
+
+    // ─── Load Store Data ───────────────────────────────────────────────────────
+    const sel = document.getElementById('storeSelect');
+
+    async function loadStore() {
+      const id   = sel.value;
+      const name = sel.options[sel.selectedIndex].text;
+      document.getElementById('subHead').innerText = `${name} · Live AI Monitoring`;
+
+      const res  = await fetch(`/api/store_data?store_id=${id}`);
+      const data = await res.json();
+      const inv  = data.inventory;
+      const wea  = data.weather;
+
+      // KPIs
+      const crits = inv.inventory.filter(i => i.risk_level === 'CRITICAL').length;
+      const highs = inv.inventory.filter(i => i.risk_level === 'HIGH').length;
+      document.getElementById('kCrit').innerText  = crits;
+      document.getElementById('kHigh').innerText  = highs;
+      document.getElementById('kWaste').innerText = '£' + inv.total_potential_waste_gbp.toFixed(0);
+      document.getElementById('kTotal').innerText = inv.total_skus_checked;
+      document.getElementById('kTemp').innerText  = Math.round(wea.demand_impact.avg_temp_max) + '°C';
+      document.getElementById('kImp').innerText   = 'Impact: ' + wea.demand_impact.overall;
+
+      // Weather alert
+      const wa = document.getElementById('weatherAlert');
+      if (wea.demand_impact.notes && wea.demand_impact.notes.length) {
+        wa.style.display = 'block';
+        wa.innerHTML = `<strong>⚠️ Weather Notice:</strong> ${wea.demand_impact.notes.join(' · ')}`;
+      } else {
+        wa.style.display = 'none';
+      }
+
+      // Inventory list
+      const list = document.getElementById('inventoryList');
+      list.innerHTML = '';
+      const order = { CRITICAL:0, HIGH:1, MEDIUM:2, LOW:3 };
+      const sorted = [...inv.inventory].sort((a,b) => order[a.risk_level] - order[b.risk_level]);
+
+      // 2-column grid wrapper
+      list.innerHTML = '<div class="inv-grid" id="invGrid"></div>';
+      const grid = document.getElementById('invGrid');
+
+      sorted.forEach((item, i) => {
+          const pc = progColor(item.waste_risk_pct);
+          const card = document.createElement('div');
+          card.className = `inv-card ${riskCard(item.risk_level)} fade-up`;
+          card.style.animationDelay = `${i * 0.04}s`;
+          card.innerHTML = `
+              <div class="inv-top">
+                <div>
+                  <div class="inv-name">${item.name}</div>
+                  <div class="inv-cat">${item.category}</div>
+                </div>
+                ${riskPill(item.risk_level, item.days_to_expiry)}
+              </div>
+              <div class="inv-stats">
+                <div>
+                  <div class="stat-v">${item.stock_qty}</div>
+                  <div class="stat-l">In Stock</div>
+                </div>
+                <div>
+                  <div class="stat-v">${item.daily_sales}/day</div>
+                  <div class="stat-l">Sales Rate</div>
+                </div>
+                <div>
+                  <div class="stat-v">${item.projected_unsold_units}</div>
+                  <div class="stat-l">Unsold Est.</div>
+                </div>
+                <div>
+                  <div class="stat-v accent">£${item.potential_waste_value_gbp.toFixed(2)}</div>
+                  <div class="stat-l">At Risk</div>
+                </div>
+              </div>
+              <div class="prog-bg">
+                <div class="prog-fill" style="width:${item.waste_risk_pct}%; background:${pc};"></div>
+              </div>
+              <div class="expiry-hint">
+                ⏱️ ${item.days_to_expiry}d to expiry &nbsp;·&nbsp; ${item.waste_risk_pct.toFixed(0)}% waste risk
+              </div>`;
+          grid.appendChild(card);
+        });
+
+      // Reset AI section
+      document.getElementById('aiEmpty').style.display  = 'block';
+      document.getElementById('aiResults').style.display = 'none';
+      // ESG is now live from transfers — just reset display text
+      ['esgGbp','esgKg','esgCo2','esgMeals'].forEach(eid =>
+        document.getElementById(eid).innerText = '0');
+      document.getElementById('cesgFill').style.width = '0%';
+      document.getElementById('cesgPct').innerText = '—%';
+    }
+
+    sel.addEventListener('change', () => { loadStore(); loadTransfers(); });
+    loadStore();
+    loadTransfers();
+
+    // ─── Run AI Analysis ───────────────────────────────────────────────────────
+    document.getElementById('runBtn').addEventListener('click', async () => {
+      const id  = sel.value;
+      const btn = document.getElementById('runBtn');
+      btn.disabled = true;
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Analysing…`;
+
+      // Force switch to AI tab
+      switchTab('ai');
+      document.getElementById('aiEmpty').style.display    = 'none';
+      document.getElementById('aiResults').style.display  = 'none';
+      document.getElementById('aiLoader').style.display   = 'block';
+
+      try {
+        const res  = await fetch('/api/run_analysis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ store_id: id }),
+        });
+        const data = await res.json();
+
+        document.getElementById('aiLoader').style.display  = 'none';
+        document.getElementById('aiResults').style.display = 'block';
+
+        // Store decisions for reference
+        window._lastDecisions = data.decisions;
+
+        const content = document.getElementById('aiContent');
+        content.innerHTML = '';
+        data.decisions.forEach((d, i) => {
+
+          const safeProduct = d.product.replace(/'/g, "\\'").replace(/`/g, '\\`');
+          const isTransfer  = d.action === 'TRANSFER' && d.transfer_meta;
+          const tm          = isTransfer ? d.transfer_meta : null;
+
+          // ── Transfer CTA block ──────────────────────────────────────────────
+          const xferSection = isTransfer ? `
+            <div id="xfer-wrap-${d.decision_id}" class="xfer-action-wrap">
+              <div class="xfer-dest-label">📍 AI Suggested Transfer Destination</div>
+              <div class="xfer-dest-store">
+                ${tm.to_store_name}
+                <span style="font-weight:400;color:var(--gray-400);"> · ${tm.units} units capacity</span>
+              </div>
+              <button class="xfer-btn" id="xfer-btn-${d.decision_id}"
+                onclick="initiateTransfer(
+                  '${sel.value}','${tm.to_store_id}','${d.sku_id}',
+                  '${safeProduct}',${tm.units},${d.saving_gbp},'${d.decision_id}'
+                )">
+                🚚 Transfer to ${tm.to_store_name}
+              </button>
+            </div>` : '';
+
+          content.innerHTML += `
+            <div class="dec-card fade-up" style="animation-delay:${i*0.06}s">
+              <div class="dec-top">
+                <div>
+                  <div class="action-tag">${actionIcon(d.action)} ${actionName(d.action)}</div>
+                  <div class="dec-product">${d.product}</div>
+                </div>
+                <div class="save-chip" title="Projected saving if this action is taken">
+                  📈 Projected: £${d.saving_gbp.toFixed(2)}
+                </div>
+              </div>
+              <div class="dec-detail">${d.detail} &nbsp;·&nbsp; ${d.units} units</div>
+              <div class="reason-box">
+                <div class="reason-label">💡 Why?</div>
+                ${d.short_reasoning || d.reasoning}
+              </div>
+              ${xferSection}
+            </div>`;
+        });
+
+      } catch (err) {
+        console.error(err);
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg> Run AI Analysis`;
+    });
+
+    // ─── Initiate Transfer ─────────────────────────────────────────────────────
+    async function initiateTransfer(fromStoreId, toStoreId, skuId, productName, units, savingGbp, decisionId) {
+      const btn  = document.getElementById(`xfer-btn-${decisionId}`);
+      const wrap = document.getElementById(`xfer-wrap-${decisionId}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.innerText = '⏳ Sending request…';
+
+      try {
+        const res = await fetch('/api/initiate_transfer', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            from_store_id:       fromStoreId,
+            to_store_id:         toStoreId,
+            sku_id:              skuId,
+            product_name:        productName,
+            units:               units,
+            expected_saving_gbp: savingGbp,
+            decision_id:         decisionId,
+          }),
+        });
+        const data = await res.json();
+
+        if (data.status === 'SUCCESS') {
+          const t = data.transfer;
+          wrap.innerHTML = `
+            <div class="xfer-done">
+              ✅ Transfer sent to <strong>${t.to_store_name}</strong>
+              &nbsp;·&nbsp; ${t.units} units &nbsp;·&nbsp;
+              <span style="font-family:monospace;font-size:0.68rem;opacity:0.7;">${t.transfer_id}</span>
+              <span style="margin-left:auto;font-size:0.72rem;color:var(--gray-400);">→ Awaiting acceptance</span>
+            </div>`;
+
+          // Refresh Transfer Hub data, then navigate to it
+          await loadTransfers();
+          updateTransferBadge();
+          setTimeout(() => switchTab('transfers'), 500);
+        } else {
+          wrap.innerHTML = `<div style="color:var(--red-500);font-size:0.78rem;margin-top:0.5rem;">❌ Transfer failed — ${data.error}</div>`;
+        }
+      } catch (err) {
+        console.error(err);
+        btn.disabled = false;
+        btn.innerText = '🚚 Retry Transfer';
+      }
+    }
+
+    // ─── Load Transfer Hub ─────────────────────────────────────────────────────
+    function fmtTime(iso) {
+      try {
+        const d = new Date(iso);
+        return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+      } catch { return iso; }
+    }
+
+    function statusPill(s) {
+      const icons = { PENDING:'⏳', ACCEPTED:'✅', REJECTED:'❌', COMPLETED:'🏁' };
+      return `<span class="status-pill s-${s}">${icons[s]||'•'} ${s}</span>`;
+    }
+
+    function renderTransferCard(t, type) {
+      const route = type === 'outgoing'
+        ? `📤 To: <strong>${t.to_store_name}</strong>`
+        : `📥 From: <strong>${t.from_store_name}</strong>`;
+
+      let actions = '';
+      if (type === 'incoming' && t.status === 'PENDING') {
+        actions = `
+          <button class="accept-btn yes" onclick="respondTransfer('${t.transfer_id}','ACCEPTED')">✔ Accept</button>
+          <button class="accept-btn no"  onclick="respondTransfer('${t.transfer_id}','REJECTED')">✘ Reject</button>`;
+      }
+
+      return `
+        <div class="trx-card ${type}" id="trx-${t.transfer_id}">
+          <div class="trx-top">
+            <div class="trx-product">${t.product_name}</div>
+            <div class="trx-id">${t.transfer_id}</div>
+          </div>
+          <div class="trx-route">${route}</div>
+          <div class="trx-meta">
+            <span class="trx-units">📦 ${t.units} units</span>
+            <span class="trx-saving">💷 £${t.expected_saving_gbp.toFixed(2)} saving</span>
+            ${statusPill(t.status)}
+            <span class="trx-time">${fmtTime(t.created_at)}</span>
+          </div>
+          ${actions ? `<div style="display:flex;gap:0.4rem;margin-top:0.55rem;">${actions}</div>` : ''}
+        </div>`;
+    }
+
+    async function loadTransfers() {
+      const id = sel.value;
+      try {
+        const [tRes, impRes] = await Promise.all([
+          fetch(`/api/transfers?store_id=${id}`),
+          fetch(`/api/transfer_impact?store_id=${id}`),
+        ]);
+        const data   = await tRes.json();
+        const impact = await impRes.json();
+
+        const outEl = document.getElementById('outgoingList');
+        const inEl  = document.getElementById('incomingList');
+
+        if (data.outgoing.length === 0) {
+          outEl.innerHTML = `
+            <div class="empty-state" style="padding:1.5rem;">
+              <div class="empty-icon" style="font-size:2rem;">📤</div>
+              <div class="empty-title" style="font-size:0.9rem;">No outgoing transfers yet</div>
+              <div class="empty-sub" style="font-size:0.78rem;">Run AI Analysis and click "Transfer this to [Store]" on any transfer recommendation.</div>
+            </div>`;
+        } else {
+          outEl.innerHTML = data.outgoing
+            .sort((a,b) => b.created_at.localeCompare(a.created_at))
+            .map(t => renderTransferCard(t, 'outgoing')).join('');
+        }
+
+        if (data.incoming.length === 0) {
+          inEl.innerHTML = `
+            <div class="empty-state" style="padding:1.5rem;">
+              <div class="empty-icon" style="font-size:2rem;">📥</div>
+              <div class="empty-title" style="font-size:0.9rem;">No incoming transfers</div>
+              <div class="empty-sub" style="font-size:0.78rem;">When another store sends stock your way, it will appear here to accept or reject.</div>
+            </div>`;
+        } else {
+          inEl.innerHTML = data.incoming
+            .sort((a,b) => b.created_at.localeCompare(a.created_at))
+            .map(t => renderTransferCard(t, 'incoming')).join('');
+        }
+
+        // Hub savings summary bar
+        const hubSummary = document.getElementById('hubSummary');
+        if (impact.active_transfers > 0) {
+          hubSummary.style.display = 'flex';
+          document.getElementById('hubTotalGbp').innerText       = '£' + impact.total_saving_gbp.toFixed(2);
+          document.getElementById('hubTotalTransfers').innerText  = impact.active_transfers;
+          document.getElementById('hubTotalKg').innerText         = impact.total_kg_saved + ' kg';
+          document.getElementById('hubTotalCo2').innerText        = impact.co2_avoided_kg + ' kg';
+        } else {
+          hubSummary.style.display = 'none';
+        }
+
+        updateTransferBadge(data.incoming.filter(t => t.status === 'PENDING').length);
+
+      } catch (err) { console.error('loadTransfers:', err); }
+    }
+
+    function updateTransferBadge(count) {
+      if (count === undefined) {
+        // Re-fetch count without full render
+        fetch(`/api/transfers?store_id=${sel.value}`)
+          .then(r => r.json())
+          .then(d => updateTransferBadge(d.incoming.filter(t => t.status === 'PENDING').length));
+        return;
+      }
+      const badge = document.getElementById('transferBadge');
+      if (count > 0) {
+        badge.style.display = 'inline-flex';
+        badge.innerText = count;
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+
+    // ─── ESG from Transfers ────────────────────────────────────────────────────
+    async function loadEsgFromTransfers() {
+      const id = sel.value;
+      try {
+        const res    = await fetch(`/api/transfer_impact?store_id=${id}`);
+        const impact = await res.json();
+
+        if (impact.active_transfers > 0) {
+          document.getElementById('esgGbp').innerText   = '£' + impact.total_saving_gbp.toFixed(0);
+          document.getElementById('esgKg').innerText    = impact.total_kg_saved + ' kg';
+          document.getElementById('esgCo2').innerText   = impact.co2_avoided_kg + ' kg';
+          document.getElementById('esgMeals').innerText = impact.meals_equivalent;
+
+          const pct = Math.min(Math.round((impact.total_saving_gbp / 500) * 100), 100);
+          document.getElementById('cesgFill').style.width = pct + '%';
+          document.getElementById('cesgPct').innerText    = pct + '%';
+
+          document.getElementById('esgInfoBox').innerHTML =
+            `✅ <strong style="color:var(--green-700);">Live data from ${impact.active_transfers} active transfer(s).</strong>
+            These figures update automatically as transfers are confirmed and accepted across stores.`;
+        } else {
+          ['esgGbp','esgKg','esgCo2','esgMeals'].forEach(eid =>
+            document.getElementById(eid).innerText = '0');
+          document.getElementById('cesgFill').style.width = '0%';
+          document.getElementById('cesgPct').innerText    = '0%';
+          document.getElementById('esgInfoBox').innerHTML =
+            `💡 <strong style="color:var(--orange-700);">No transfers yet.</strong>
+            Run an AI Analysis, then click "Transfer this to [Store]" on any transfer recommendation.
+            Once initiated, confirmed savings will appear here automatically.`;
+        }
+      } catch (err) { console.error('loadEsgFromTransfers:', err); }
+    }
+
+    // ─── Accept / Reject Transfer ──────────────────────────────────────────────
+    async function respondTransfer(transferId, newStatus) {
+      const card = document.getElementById(`trx-${transferId}`);
+      if (card) {
+        card.style.opacity  = '0.5';
+        card.style.pointerEvents = 'none';
+      }
+      try {
+        const res  = await fetch('/api/accept_transfer', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ transfer_id: transferId, status: newStatus }),
+        });
+        const data = await res.json();
+        if (data.status === 'SUCCESS') {
+          // Refresh both Transfer Hub and ESG (now driven by confirmed transfers)
+          await loadTransfers();
+          await loadEsgFromTransfers();
+          updateTransferBadge();
+        }
+      } catch (err) {
+        console.error(err);
+        if (card) { card.style.opacity = '1'; card.style.pointerEvents = ''; }
+      }
+    }
+  </script>
+
+</body>
+</html>

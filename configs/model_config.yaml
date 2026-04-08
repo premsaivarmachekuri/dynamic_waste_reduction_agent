@@ -1,0 +1,67 @@
+# model_config.yaml — ML model and Vertex AI configuration
+
+vertex_ai:
+  project: "tcs-1770741130267"
+  region: "us-central1"
+  service_account: "ai-engine-prod@tcs-1770741130267.iam.gserviceaccount.com"
+
+gemini:
+  primary_model: "gemini-2.5-flash"
+  fallback_model: "gemini-2.0-flash"
+  temperature: 0.2
+  thinking_budget: 0  # disable for structured JSON output
+  max_output_tokens: 8192
+
+rag:
+  corpus_display_name: "waste-engine-rag-corpus"
+  embedding_model: "text-embedding-005"
+  chunk_size: 512
+  chunk_overlap: 100
+  similarity_top_k: 5
+  max_embedding_requests_per_min: 900
+  documents:
+    - waste_reduction_strategies.txt
+    - price_elasticity_data.txt
+    - esg_reporting_standards.txt
+    - seasonal_demand_patterns.txt
+    - food_safety_regulations.txt
+    - transfer_logistics_guide.txt
+
+bigquery:
+  dataset: "waste_engine"
+  location: "US"
+  tables:
+    - inventory
+    - historical_sales
+    - decisions_log
+    - transfers
+    - waste_events
+  write_mode: "streaming_insert"  # for real-time logging
+
+price_elasticity:
+  defaults:
+    "Meat & Poultry": 1.8
+    "Fish & Seafood": 1.5
+    "Dairy": 0.7
+    "Bakery": 1.7
+    "Produce": 1.9
+    "Ready Meals": 1.5
+    "default": 1.5
+
+esg_factors:
+  co2_per_kg_food_waste: 3.3  # WRAP Courtauld standard
+  grams_per_meal: 300
+  co2_per_tree_per_year: 21
+  social_value_multiplier: 2.2  # NEF
+
+logistics:
+  cost_per_unit_gbp: 0.18
+  min_transfer_units: 8
+  min_days_expiry_for_transfer: 2
+  max_distance_chilled_km: 25
+  max_distance_ambient_km: 50
+
+margins:
+  minimum_gross_margin_pct: 25
+  target_gross_margin_pct: 35
+  donation_threshold_pct: 20  # donate if margin would drop below this

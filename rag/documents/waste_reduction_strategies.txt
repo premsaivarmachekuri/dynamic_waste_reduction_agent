@@ -1,0 +1,77 @@
+TITLE: Waste Reduction Strategies for UK Supermarket Perishable Goods
+SOURCE: Dynamic Waste Reduction Engine Knowledge Base v2.0
+CATEGORY: Operational Strategy
+
+## CRITICAL ITEMS (≤1 Day to Expiry)
+
+### Meat & Poultry
+- Apply 25-35% markdown immediately when reaching same-day expiry
+- Combined discount + loyalty coupon outperforms discount alone by 18% on average
+- Chicken breast responds best to 30% discount (elasticity: -2.1)
+- Beef mince: minimum 25% for viable margin; 30% recommended at ≤1 day
+- Do NOT transfer same-day expiry meat — transit time risk exceeds benefit
+- Donation to food banks is preferred when margin < 20% after markdown
+- Heatwave conditions: accelerate to maximum markdown within 4 hours of store opening
+
+### Fish & Seafood
+- Most perishable category: act at HIGH risk (2 days), not just CRITICAL
+- Salmon and sea bass: 25% discount at day 2 is more effective than 35% at day 1
+- Cold chain integrity is critical for transfers — maximum 90 minutes transit
+- Smoked salmon has longer transfer window due to curing process
+- Cod and trout respond well to meal-deal bundling (increases demand ~22%)
+
+### Dairy
+- Milk: consumers highly price-sensitive; 20% discount moves stock efficiently
+- Soft cheese (brie, camembert): premium buyers less elastic; 15% sufficient
+- Greek yoghurt and butter have 3-day comfort zone for promotions
+- Avoid transferring milk within 48h of expiry — recipient store risk too high
+
+### Bakery
+- Sourdough and artisan loaves: 40% markdown at end-of-day drives full clearance
+- Croissants: sell by noon — morning 20% discount beats end-of-day 40%
+- Freeze-and-return program viable for sourdough loaves (3-day window)
+- Donation to food banks is highest-impact ESG action for bakery at <6h to close
+
+### Produce (Fruit & Vegetables)
+- Berries: 1.5-day effective shelf life after CRITICAL threshold
+- Avocados ripen unevenly — sort by ripeness and price accordingly (20%/30%/50%)
+- Strawberries and raspberries respond to loyalty coupon (sweet spot: 12-18% off)
+- Pre-cut produce: always discount, never transfer due to oxidation risk
+
+### Ready Meals
+- Chicken tikka masala and lasagne: highest demand at dinner time (4-7pm)
+- Time-targeted promotions (4pm push notification) outperform all-day discounts by 31%
+- Transfer viable if ≥36h remaining and distance ≤25km
+
+## HIGH-RISK ITEMS (2 Days to Expiry)
+
+Decision priority matrix:
+1. If transfer net saving > discount saving AND ≥36h remaining → TRANSFER
+2. If weather reduces local demand → prefer TRANSFER to higher-demand store
+3. If margin ≥35% at 20% discount → DISCOUNT (protects logistics costs)
+4. If loyalty base >200 customers within 5km → LOYALTY_COUPON
+5. If none viable → escalate to DONATE
+
+## NETWORK-LEVEL OPTIMIZATION
+
+Cross-store transfers should be evaluated at network level daily:
+- Morning review: identify HIGH and CRITICAL items across all stores
+- Match surplus stores to deficit stores using 7-day demand forecast
+- Use weather differentials to route — sunny stores see +15% fresh produce demand
+- Minimum transfer quantity: 10 units (below this, logistics cost >net benefit)
+- Maximum transfer distance: 50km for ambient, 25km for chilled, 10km for hot
+
+## ESG IMPACT CALCULATION STANDARDS (WRAP Courtauld Commitment)
+
+- 1 kg food waste prevented = 3.3 kg CO2 equivalent avoided
+- Average UK meal = 300g food
+- £1 of waste prevented = approximately £2.20 social value (New Economics Foundation)
+- Target: 50% reduction in food waste per tonne of food handled by 2030 (WRAP)
+
+## MARGIN PROTECTION RULES
+
+- Minimum gross margin floor: 25% (non-negotiable)
+- Exception: donated items can go below floor (ESG credit offsets)
+- Yellow sticker policy: 25-35% markdown is industry standard
+- Loyalty coupon additional cost must be factored: net benefit = waste_saved - coupon_cost
+- Transfer net saving = units_transferred × unit_cost - logistics_cost (£0.18/unit standard)

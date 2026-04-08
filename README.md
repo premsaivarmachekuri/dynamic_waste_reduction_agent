@@ -1,108 +1,182 @@
-# AI-Powered Dynamic Waste Reduction Engine 🌿
+# 🌱 Dynamic Waste Reduction Engine
 
-An autonomous perishable waste reduction engine for supermarkets. Powered by Google ADK (Agent Development Kit) and Gemini, this project orchestrates specialized AI agents to analyze at-risk inventory, forecast spoilage, optimize decisions, and provide actionable, natural language explanations.
+> **Google AI Hackathon 2026** — AI-Powered Perishables Optimization using Google ADK + Gemini 2.0 Flash + Vertex AI Agent Engine
 
-## 🚀 Architecture Overview
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://python.org)
+[![Google ADK](https://img.shields.io/badge/Google-ADK-orange.svg)](https://google.github.io/adk-docs/)
+[![Gemini 2.0](https://img.shields.io/badge/Gemini-2.0%20Flash-green.svg)](https://deepmind.google/gemini/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-This project implements a multi-agent architecture via `Google ADK`. A main Orchestrator Agent manages a sequential pipeline of 4 specialized sub-agents:
+---
 
-```mermaid
-graph TD
-    User([User Request]) --> Orchestrator{Orchestrator Agent}
-    
-    subgraph Pipeline [Sequential Pipeline]
-        direction TB
-        DA[Data Agent<br/>data_agent.py] --> FA[Forecast Agent<br/>forecast_agent.py]
-        FA --> DA2[Decision Agent<br/>decision_agent.py]
-        DA2 --> EA[Explanation Agent<br/>explanation_agent.py]
-    end
-    
-    Orchestrator -->|Delegates to| DA
-    EA -->|Final Assessment| Orchestrator
-    Orchestrator --> Response([Action Recommendations & ESG Impact])
-    
-    classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px;
-    classDef orchestrator fill:#d4edda,stroke:#28a745,stroke-width:2px;
-    classDef subagent fill:#cce5ff,stroke:#007bff,stroke-width:2px;
-    classDef io fill:#e2e3e5,stroke:#6c757d,stroke-width:2px,stroke-dasharray: 5 5;
-    
-    class Orchestrator orchestrator;
-    class DA,FA,DA2,EA subagent;
-    class User,Response io;
+## 🎯 What It Does
+
+A multi-agent AI system that predicts food waste before it happens and autonomously executes optimal reduction actions:
+
+```
+📦 Inventory + 🌤️ Weather → 🔍 Forecast Risk → 🧠 Simulate Actions → ⚡ Execute & Log → 🌍 ESG Report
 ```
 
-1. **Data Agent (`agents/data_agent.py`)** 📥
-   Retrieves and filters at-risk inventory batches based on projected waste and expiry dates.
-2. **Forecast Agent (`agents/forecast_agent.py`)** 📈
-   Utilizes Gemini to provide a confirmed spoilage risk assessment by evaluating factors like weather, sell-through rates, and current inventory.
-3. **Decision Agent (`agents/decision_agent.py`)** 🧠
-   Simulates potential mitigation actions (e.g., varying discounts, inter-store transfers) and calculates the optimal decision to minimize waste while protecting margin.
-4. **Explanation Agent (`agents/explanation_agent.py`)** 💬
-   Translates the complex, optimized decision back into plain English, explaining why a specific action was chosen over alternatives using Gemini.
+**Key capabilities:**
+- **Real-time waste forecasting** per SKU across 5 stores
+- **Multi-action simulation**: discount, stock transfer, loyalty coupon
+- **Margin-aware decisions** (always protects ≥25% gross margin)
+- **ESG metrics**: kg food saved, CO₂ avoided, meals equivalent
+- **AI explainability**: "Why did the system decide this?"
 
-### System Components
+---
 
-- **`orchestrator.py`**: The entry point for the ADK runtime. Wires the 4 agents into a `SequentialAgent` pipeline.
-- **`app.py`**: A Gradio-powered Web UI offering:
-  - **Inventory Explorer**: Tabular view of at-risk batches.
-  - **Risk Heatmap**: Visual charts showing average waste risk scores.
-  - **Agent Decisions**: The pipeline's recommended actions and total ESG impact.
-  - **Gemini Chat**: Interactive Q&A for explaining decisions.
-- **`tools.py`**: Native Python utility functions (isolated from ADK imports) for loading data, scoring risk, and wrapping business logic simulations.
-- **`data/`**: Directory containing the inventory, stores, sales history, and SKU datasets.
+## 🏗️ Architecture
 
-## 💻 Running Locally
+```
+waste-reduction-engine/
+├── agents/
+│   ├── forecasting_agent.py    ← WasteForecaster (inventory + weather)
+│   ├── decision_agent.py       ← WasteDecisionEngine (simulate + optimize)
+│   ├── execution_agent.py      ← ActionExecutor (log + explain)
+│   └── orchestrator.py         ← Root orchestrator (multi-agent pipeline)
+├── tools/
+│   ├── inventory_tools.py      ← BigQuery / mock inventory queries
+│   ├── weather_tools.py        ← Open-Meteo API (free, no key needed)
+│   └── pricing_tools.py        ← Discount / transfer / coupon simulations
+├── data/
+│   ├── mock_inventory.json     ← Synthetic Sainsbury's-style data (5 stores)
+│   └── decisions_log.json      ← AI decision audit log (auto-generated)
+├── tests/
+│   └── test_engine.py          ← Full pytest suite
+├── dashboard.py                ← Streamlit UI
+├── main.py                     ← CLI runner
+└── agent_engine_deploy.py      ← Vertex AI deployment
+```
 
-1. **Setup Environment**:
-   Ensure you have Python installed, then install the dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Agent Flow
 
-2. **Run the Gradio UI**:
-   ```bash
-   python app.py
-   ```
-   *The application will start locally (default port `7860`).*
+```
+User Query
+    ↓
+WasteReductionOrchestrator (root_agent)
+    ├── WasteForecaster
+    │     ├── get_inventory_status()   → At-risk batches
+    │     ├── get_weather_forecast()   → Demand modifiers
+    │     └── get_transfer_options()   → Possible destinations
+    ├── WasteDecisionEngine
+    │     ├── simulate_discount_action(10/20/30%)
+    │     ├── simulate_transfer_action()
+    │     └── simulate_loyalty_coupon()
+    └── ActionExecutor
+          ├── log_decision_to_store()  → Persist decisions
+          └── calculate_esg_metrics()  → ESG summary
+```
 
-3. **Run the Orchestrator Demo (CLI)**:
-   ```bash
-   python orchestrator.py
-   ```
-   *Runs a local test simulating a request for a specific store and SKU.*
+---
 
-## 🐳 Docker Build
+## ⚡ Quick Start
 
-To run the project in an isolated container:
-
-1. **Build the Image:**
-   ```bash
-   docker build -t dynamic-waste-reduction-agent .
-   ```
-2. **Run the Container:**
-   ```bash
-   docker run -p 7860:7860 dynamic-waste-reduction-agent
-   ```
-
-## ☁️ Deployment
-
-Deploy the frontend UI easily to Google Cloud Run:
+### 1. Install dependencies
 ```bash
-gcloud run deploy waste-engine-ui --source . --port 7860
+pip install -r requirements.txt
+# or
+pip install streamlit google-adk google-cloud-bigquery google-cloud-aiplatform \
+            requests pandas numpy python-dotenv rich faker
 ```
 
-Deploy the backend engine using the ADK CLI:
+### 2. Configure environment
 ```bash
-adk deploy orchestrator.py --project YOUR_PROJECT_ID --region us-central1
+cp .env.example .env
+# Edit .env — set GOOGLE_API_KEY for full ADK mode
+# Leave DEMO_MODE=true to run without any API keys
 ```
 
-## 🌍 ESG Impact
+### 3. Run tests (no API key needed)
+```bash
+pytest tests/ -v
+```
 
-The platform prioritizes reducing preventable food waste, converting saved inventory back into revenue while proactively reducing CO₂e emissions. The UI dynamically summarizes value saved and emissions prevented.
+### 4. CLI tool test
+```bash
+python main.py --test-tools --store ST001
+```
 
-## 🗺️ Roadmap
+### 5. Launch dashboard
+```bash
+streamlit run dashboard.py
+```
 
-- [x] Define multi-agent architecture and orchestrator.
-- [x] Set up Gradio application (`app.py`).
-- [x] Build the project via Docker.
-- [x] Deploy the project (e.g., using Google Cloud).
+### 6. Full ADK agent run (requires GOOGLE_API_KEY)
+```bash
+python main.py --store ST001
+# or custom query:
+python main.py --query "Why is Metro Central wasting so much salmon this week?"
+```
+
+---
+
+## 🚀 Deploy to Vertex AI Agent Engine
+
+```bash
+# Set up GCP
+gcloud auth application-default login
+gcloud config set project YOUR_PROJECT_ID
+
+# Deploy
+python agent_engine_deploy.py --project YOUR_PROJECT_ID --location us-central1
+
+# Test deployed engine
+python agent_engine_deploy.py --test --project YOUR_PROJECT_ID \
+    --engine-id projects/YOUR_PROJECT/locations/us-central1/reasoningEngines/ENGINE_ID
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Tool |
+|-------|------|
+| Agent Framework | Google ADK (`google-adk`) |
+| Agent Hosting | Vertex AI Agent Engine (Reasoning Engine) |
+| LLM | Gemini 2.0 Flash |
+| Data | BigQuery + Synthetic JSON |
+| Weather | Open-Meteo API (free, no key) |
+| Forecasting | Rule-based Python + Gemini heuristics |
+| Dashboard | Streamlit |
+| Observability | ADK tracing + Cloud Logging |
+
+---
+
+## 📊 Demo Scenario
+
+> **"Store A — 120 chicken packs, expiry in 2 days, heatwave incoming"**
+
+1. 🔍 WasteForecaster detects: 80 units projected unsold (67% waste risk), heatwave accelerates spoilage
+2. 🧠 WasteDecisionEngine simulates:
+   - 20% discount → margin 38.2%, saves £67.20
+   - Transfer 40 units to ST003 → net saving £48.80
+   - Loyalty coupon → 60 redemptions, £12.40 net benefit
+3. ⚡ ActionExecutor selects: **20% discount + loyalty coupon combo** → £79.60 total saving
+4. 🌍 ESG: 24kg food saved, 79.2kg CO₂ avoided, 80 meals equivalent
+
+---
+
+## 🌍 ESG Impact Model
+
+- **Food saved**: `unsold_units_prevented × weight_kg`
+- **CO₂ avoided**: `kg_food × 3.3` (WRAP methodology: 3.3kg CO₂eq per kg food waste)
+- **Meals equivalent**: `kg_food / 0.3` (300g per meal)
+
+---
+
+## ⚠️ Risk Mitigation
+
+| Risk | Mitigation |
+|------|-----------|
+| Vertex AI Forecasting setup | Gemini-based heuristic prediction as fallback |
+| Agent Engine deployment fails | Local ADK runner + `--test-tools` mode |
+| BQ latency in demo | Cached mock JSON for instant demo response |
+| Multi-agent handoff breaks | Each agent independently testable |
+| No API key | Full demo mode with realistic mock AI analysis |
+
+---
+
+## 📄 License
+
+MIT — built for Google AI Hackathon 2026.

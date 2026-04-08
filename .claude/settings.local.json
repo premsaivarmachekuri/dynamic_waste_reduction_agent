@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(export PROJECT_ID=tcs-1770741130267)",
+      "Bash(export GOOGLE_APPLICATION_CREDENTIALS=tcs-1770741130267-a4a73ebadced.json)",
+      "Bash(gcloud services:*)",
+      "Bash(DEMO_MODE=true GOOGLE_API_KEY=AIzaSyAnN2SdnVP8L5F_lv-SjymXGtfPIY58HFs python3:*)",
+      "Bash(pip install:*)",
+      "Bash(DEMO_MODE=true python3:*)",
+      "Bash(chmod +x /home/malleswari_ae6bfed6_5185_46e5_a6/dynamic_waste_reduction_engine/scripts/setup.sh)",
+      "Bash(chmod +x /home/malleswari_ae6bfed6_5185_46e5_a6/dynamic_waste_reduction_engine/scripts/deploy.sh)",
+      "Bash(pip list:*)",
+      "Bash(docker --version)",
+      "Bash(gcloud:*)",
+      "Bash(python3:*)",
+      "Bash(export GOOGLE_APPLICATION_CREDENTIALS=\"$\\(pwd\\)/tcs-1770741130267-a4a73ebadced.json\")",
+      "Bash(adk --help)",
+      "Bash(adk web:*)",
+      "Bash(adk run:*)",
+      "Bash(adk api_server --help)",
+      "Bash(ls -la /home/labuser/Downloads/dynamic_waste_reduction_engine/agents/*.py)",
+      "Bash(pip show:*)",
+      "Read(//usr/lib/google-cloud-sdk/bin/**)",
+      "Read(//snap/bin/**)",
+      "Read(//home/labuser/google-cloud-sdk/bin/**)",
+      "Bash(export PATH=\"$PATH:/usr/lib/google-cloud-sdk/bin:$HOME/google-cloud-sdk/bin\")",
+      "Bash(adk deploy:*)",
+      "Bash(ls:*)",
+      "Bash(python:*)",
+      "Bash(printf \"What is the inventory status for store ST001? List the top at-risk items.\\\\nexit\\\\n\")",
+      "Bash(timeout 120 adk run agents)",
+      "Bash(find /home/malleswari_ae6bfed6_5185_46e5_a6/dynamic_waste_reduction_engine -name \"*.pyc\" -delete)",
+      "Bash(find /home/malleswari_ae6bfed6_5185_46e5_a6/dynamic_waste_reduction_engine -name \"__pycache__\" -type d -exec rm -rf {} +)",
+      "Bash(grep \"model=\" agents/*.py)",
+      "Bash(echo \"Deploy started \\(PID: $!\\)\")",
+      "Bash(grep:*)",
+      "Bash(printf \"What stores do you manage?\\\\nexit\\\\n\")",
+      "Bash(printf \"What is the waste risk for store ST001? Just give me a brief overview.\\\\nexit\\\\n\")",
+      "Bash(wc -l /home/malleswari_ae6bfed6_5185_46e5_a6/dynamic_waste_reduction_engine/agents/*.py /home/malleswari_ae6bfed6_5185_46e5_a6/dynamic_waste_reduction_engine/tools/*.py)"
+    ]
+  }
+}

@@ -1,0 +1,108 @@
+TITLE: Seasonal Demand Patterns for UK Supermarket Perishables
+SOURCE: Dynamic Waste Reduction Engine Knowledge Base v2.0
+CATEGORY: Demand Intelligence
+
+## MONTHLY DEMAND INDICES (100 = Annual Average)
+
+### Meat & Poultry
+- January:   85  (post-Christmas quieter, Veganuary impact)
+- February:  88  (Valentine's Day: lamb +25%, beef steak +30%)
+- March:     92
+- April:     105 (Easter: whole chicken +45%, lamb +60%, hot cross buns +200%)
+- May:       108 (early BBQ season: sausages +30%, chicken thighs +25%)
+- June:      115 (BBQ peak: burgers +40%, sausages +35%)
+- July:      120 (summer peak)
+- August:    118
+- September: 105
+- October:   95
+- November:  100 (pre-Christmas build)
+- December:  130 (Christmas: turkey +300%, beef joint +150%, game +80%)
+
+### Fish & Seafood
+- January:   90  (health resolution: salmon +15%)
+- February:  95
+- March:     110 (Lent: fish +25% in Catholic communities)
+- April:     112 (Good Friday: fish +40%)
+- May:       100
+- June:      105
+- July:      108 (summer: prawns +20%, salmon +15%)
+- August:    110
+- September: 100
+- October:   95
+- November:  95
+- December:  120 (smoked salmon +80%, whole fish +40%)
+
+### Fresh Produce
+- January:   78  (low — consumers eating comfort foods)
+- February:  82
+- March:     90
+- April:     102 (spring salads +20%)
+- May:       110 (asparagus +300%, strawberries +60%)
+- June:      120 (soft fruits peak: strawberries, raspberries, blueberries)
+- July:      125 (peak — courgettes, tomatoes, all berries)
+- August:    118
+- September: 105 (autumn produce: apples, pears, root veg)
+- October:   95
+- November:  88
+- December:  85
+
+### Dairy
+- Relatively stable year-round (staple product)
+- December: +15% (holiday baking: butter, cream, cheese)
+- January: -5% (health kick, less indulgence)
+- Summer months: ice cream drives dairy alternatives demand +10%
+
+### Bakery
+- Summer: artisan bread stable, sliced bread -8% (lighter eating)
+- Winter: bread +12%, pastries +15% (comfort food)
+- Christmas: mince pies +500%, panettone +300%
+- Easter: hot cross buns +400% (March/April)
+
+## KEY UK TRADING EVENTS
+
+### Public Holiday Demand Spikes
+- Christmas Eve:      +180% perishables, buy 3+ days stock
+- Christmas Day:      stores closed (plan for Dec 23-24 demand)
+- Boxing Day:         -60% vs normal (most stores closed or reduced hours)
+- Easter Friday:      +45% total, fish +40%, eggs +200%
+- Easter Monday:      +20% family meals
+- Bank Holidays:      +25% average, BBQ items +50% if sunny
+
+### Events Calendar (demand uplift)
+- Super Bowl Sunday (Feb):  no significant UK impact
+- Valentine's Day (Feb 14): premium ready meals +35%, chocolates +200%
+- Mother's Day (Mar):       cakes +150%, premium items +40%
+- Father's Day (Jun):       BBQ/steak +30%
+- Halloween (Oct 31):       confectionery +500%, pumpkins +400%
+- Bonfire Night (Nov 5):    sausages +80%, burgers +40%
+
+## WEEKLY PATTERNS (Basket Size by Day)
+
+Monday: 82% of weekly average (restock after weekend, lighter basket)
+Tuesday: 88%
+Wednesday: 95% (midweek fresh restock)
+Thursday: 100%
+Friday: 118% (weekend preparation, highest fresh demand)
+Saturday: 135% (peak shopping day)
+Sunday: 108% (family meals, top-up shopping)
+
+## DEMAND IMPACT OF LOCAL EVENTS
+
+- Sporting events at local stadium: footfall -15% during match, +20% day before
+- School holidays: family sizes +10%, snack items +25%
+- Local festivals/events: BBQ items +40% if outdoor, footfall +30%
+- Severe weather warning: panic buying — staples +50%, fresh -30% (footfall drops)
+
+## CATEGORY INTERACTION EFFECTS
+
+Heatwave cross-selling:
+- BBQ meats up → salads up → beverages up → ice cream up
+- Hot ready meals down, soups down, heavy pasta dishes down
+
+Cold snap cross-selling:
+- Soups up → bread up → butter up → comfort ready meals up
+- Salads down, cold beverages down, fresh fish down (perceived as summer food)
+
+Promotion halo effects:
+- Discounting chicken breast increases prawn sales +8% (meal planning)
+- Discounting salmon increases lemon +25%, dill +15% (meal accompaniments)

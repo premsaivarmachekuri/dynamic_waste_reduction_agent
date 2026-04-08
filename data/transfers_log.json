@@ -1,0 +1,18 @@
+[
+  {
+    "transfer_id": "TRF-08B3E88A",
+    "created_at": "2026-04-02T14:01:48.031463Z",
+    "from_store_id": "ST001",
+    "from_store_name": "\ud83c\udfd9\ufe0f Metro Central (London)",
+    "to_store_id": "ST002",
+    "to_store_name": "\ud83c\udfec West End Express (Birmingham)",
+    "sku_id": "SKU-0007",
+    "product_name": "Smoked Salmon 150g",
+    "units": 18,
+    "expected_saving_gbp": 43.56,
+    "decision_id": "4D88B1CC",
+    "status": "ACCEPTED",
+    "notes": "AI-initiated transfer to prevent waste",
+    "actioned_at": "2026-04-02T14:02:28.584515Z"
+  }
+]

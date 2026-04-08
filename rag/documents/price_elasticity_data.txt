@@ -1,0 +1,106 @@
+TITLE: Price Elasticity of Demand — UK Supermarket Perishables Research Data
+SOURCE: Dynamic Waste Reduction Engine Knowledge Base v2.0
+CATEGORY: Pricing Intelligence
+
+## PRICE ELASTICITY COEFFICIENTS BY CATEGORY
+
+Price elasticity (ε) is defined as: % change in quantity demanded / % change in price
+A negative elasticity means: price decrease → demand increase
+
+### Meat & Poultry
+- Chicken Breast:     ε = -2.1  (highly elastic — consumers very responsive to discounts)
+- Beef Mince:         ε = -1.8  (elastic)
+- Pork Sausages:      ε = -1.5  (moderately elastic)
+- Lamb:               ε = -1.2  (inelastic — premium product, price-insensitive)
+- Cumberland Sausage: ε = -1.6
+
+### Fish & Seafood
+- Salmon Fillet:      ε = -1.4  (somewhat inelastic — viewed as premium)
+- Cod Fillet:         ε = -1.7  (elastic — staple protein)
+- Sea Bass:           ε = -1.1  (inelastic — luxury item)
+- Smoked Salmon:      ε = -1.3  (inelastic — treat/occasion purchase)
+- Prawns:             ε = -1.9  (elastic — convenience meal driver)
+- Trout:              ε = -1.5
+
+### Dairy
+- Whole Milk:         ε = -0.5  (highly inelastic — staple, limited substitutes)
+- Cheddar:            ε = -0.8  (inelastic)
+- Greek Yoghurt:      ε = -1.3  (moderately elastic)
+- Brie/Soft Cheese:   ε = -0.9  (inelastic — treat purchase)
+- Butter:             ε = -0.6  (inelastic — staple)
+
+### Bakery
+- Sourdough Loaf:     ε = -1.6  (elastic — artisan premium but discount-responsive)
+- Croissants:         ε = -1.8  (elastic — impulse purchase)
+- Baguette:           ε = -1.7
+
+### Produce
+- Strawberries:       ε = -2.2  (very elastic — seasonal treat, promotion-driven)
+- Raspberries:        ε = -2.0  (very elastic)
+- Blueberries:        ε = -1.9  (elastic)
+- Avocados:           ε = -1.6  (moderately elastic)
+- Spinach/Salads:     ε = -1.4
+
+### Ready Meals
+- Chicken Tikka:      ε = -1.5
+- Lasagne:            ε = -1.4
+- Caesar Salad:       ε = -1.7  (elastic — convenience lunch)
+- Pasta Bake:         ε = -1.5
+
+## WEATHER DEMAND MODIFIERS
+
+Temperature effects on demand (compared to 15°C baseline):
+- Heatwave (>25°C):   Salads +20%, Beverages +25%, BBQ meats +30%, Ice cream +40%
+                      Hot ready meals -25%, Soups -30%
+- Very Hot (>30°C):   All chilled produce +15%, Reduce heavy meats by stock 20%
+- Cold (<10°C):       Ready meals +20%, Soups +35%, Comfort foods +15%
+- Rain (>5mm):        Footfall -8 to -12%, Online orders +15%
+- Heavy Rain (>15mm): Footfall -18 to -22%, fresh produce demand -15%
+- Sunny/Dry:          Normal demand baseline
+
+Day-of-week demand index (Sunday = 100):
+- Monday:    78  (quietest — order Tuesday/Wednesday deliveries carefully)
+- Tuesday:   82
+- Wednesday: 90
+- Thursday:  95
+- Friday:    115 (weekend shoppers — strong fresh demand)
+- Saturday:  132 (peak — highest velocity day)
+- Sunday:    100
+
+## DISCOUNT RESPONSE CURVES
+
+### Expected demand uplift from discount (approximation):
+  10% discount → +15% unit demand (using ε ≈ -1.5 average)
+  15% discount → +22% unit demand
+  20% discount → +30% unit demand
+  25% discount → +38% unit demand
+  30% discount → +45% unit demand
+  40% discount → +60% unit demand
+  50% discount → +75% unit demand (ceiling effect — cannot exceed available customers)
+
+### Diminishing returns:
+  Above 40% discount, additional uplift drops sharply — shoppers suspect quality issues
+  Optimal discount for highest revenue: 20-25% in most categories
+  Optimal discount for waste clearance: 30-35% (accept lower margin)
+
+## LOYALTY COUPON RESPONSE RATES
+
+Redemption rates by customer tier:
+- Gold tier (>£150/month spend):   24% redemption rate
+- Silver tier (£75-150/month):     16% redemption rate
+- Bronze tier (<£75/month):        8% redemption rate
+- Average across all tiers:        12-15%
+
+Best redemption conditions:
+- Push notification + in-app coupon: 2.3x better than email alone
+- Same-day expiry notification: 3.1x uplift vs standard discount
+- Personalised (based on purchase history): 1.8x better redemption
+- Optimal targeting radius: customers within 3km of store
+
+## PRICE ELASTICITY FORMULA FOR SIMULATIONS
+
+new_demand = base_demand × (1 + |ε| × (discount_pct / 100))
+units_sold  = min(new_demand × days_remaining, current_stock)
+waste_units = current_stock - units_sold
+gross_margin = (revenue_at_discount - total_cost) / revenue_at_discount × 100
+waste_prevention_value = (baseline_waste_units - waste_units) × unit_cost
