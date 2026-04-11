@@ -6,7 +6,7 @@ import os
 import json
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 os.environ["DEMO_MODE"] = "true"
 
 import pytest
@@ -55,7 +55,7 @@ def test_get_transfer_options():
 
 def test_log_decision_creates_file():
     from tools.inventory_tools import log_decision_to_store
-    log_path = Path(__file__).parent.parent / "data" / "decisions_log.json"
+    log_path = Path(__file__).parent.parent / "src" / "data" / "decisions_log.json"
     # Remove if exists
     if log_path.exists():
         log_path.unlink()

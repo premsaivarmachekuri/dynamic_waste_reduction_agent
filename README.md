@@ -30,23 +30,25 @@ A multi-agent AI system that predicts food waste before it happens and autonomou
 
 ```
 waste-reduction-engine/
-├── agents/
-│   ├── forecasting_agent.py    ← WasteForecaster (inventory + weather)
-│   ├── decision_agent.py       ← WasteDecisionEngine (simulate + optimize)
-│   ├── execution_agent.py      ← ActionExecutor (log + explain)
-│   └── orchestrator.py         ← Root orchestrator (multi-agent pipeline)
-├── tools/
-│   ├── inventory_tools.py      ← BigQuery / mock inventory queries
-│   ├── weather_tools.py        ← Open-Meteo API (free, no key needed)
-│   └── pricing_tools.py        ← Discount / transfer / coupon simulations
-├── data/
-│   ├── mock_inventory.json     ← Synthetic Sainsbury's-style data (5 stores)
-│   └── decisions_log.json      ← AI decision audit log (auto-generated)
+├── src/
+│   ├── agents/
+│   │   ├── forecasting_agent.py    ← WasteForecaster
+│   │   ├── decision_agent.py       ← WasteDecisionEngine
+│   │   ├── execution_agent.py      ← ActionExecutor
+│   │   └── orchestrator.py         ← Root orchestrator
+│   ├── tools/
+│   │   ├── inventory_tools.py      ← BigQuery / mock inventory
+│   │   ├── weather_tools.py        ← Open-Meteo API
+│   │   └── pricing_tools.py        ← Discount / transfer simulations
+│   ├── data/
+│   │   ├── mock_inventory.json     ← Synthetic data
+│   │   └── decisions_log.json      ← AI decision audit log
+│   ├── dashboard.py                ← Streamlit UI
+│   ├── main.py                     ← CLI runner
+│   └── agent_engine_deploy.py      ← Vertex AI deployment
 ├── tests/
 │   └── test_engine.py          ← Full pytest suite
-├── dashboard.py                ← Streamlit UI
-├── main.py                     ← CLI runner
-└── agent_engine_deploy.py      ← Vertex AI deployment
+└── scripts/
 ```
 
 ### Agent Flow
@@ -94,19 +96,19 @@ pytest tests/ -v
 
 ### 4. CLI tool test
 ```bash
-python main.py --test-tools --store ST001
+python src/main.py --test-tools --store ST001
 ```
 
 ### 5. Launch dashboard
 ```bash
-streamlit run dashboard.py
+streamlit run src/dashboard.py
 ```
 
 ### 6. Full ADK agent run (requires GOOGLE_API_KEY)
 ```bash
-python main.py --store ST001
+python src/main.py --store ST001
 # or custom query:
-python main.py --query "Why is Metro Central wasting so much salmon this week?"
+python src/main.py --query "Why is Metro Central wasting so much salmon this week?"
 ```
 
 ---
@@ -119,10 +121,10 @@ gcloud auth application-default login
 gcloud config set project YOUR_PROJECT_ID
 
 # Deploy
-python agent_engine_deploy.py --project YOUR_PROJECT_ID --location us-central1
+python src/agent_engine_deploy.py --project YOUR_PROJECT_ID --location us-central1
 
 # Test deployed engine
-python agent_engine_deploy.py --test --project YOUR_PROJECT_ID \
+python src/agent_engine_deploy.py --test --project YOUR_PROJECT_ID \
     --engine-id projects/YOUR_PROJECT/locations/us-central1/reasoningEngines/ENGINE_ID
 ```
 

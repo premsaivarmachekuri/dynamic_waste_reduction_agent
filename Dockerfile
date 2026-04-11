@@ -38,8 +38,8 @@ COPY . .
 # Create non-root user
 RUN useradd -m -u 1000 appuser && \
     chown -R appuser:appuser /app && \
-    mkdir -p /app/data && \
-    chown appuser:appuser /app/data
+    mkdir -p /app/src/data && \
+    chown appuser:appuser /app/src/data
 
 USER appuser
 
@@ -72,4 +72,4 @@ CMD exec gunicorn \
     --log-level info \
     --access-logfile - \
     --error-logfile - \
-    "app:app"
+    "src.app:app"

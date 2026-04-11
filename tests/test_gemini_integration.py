@@ -16,7 +16,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 # Ensure project root is on the path
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(ROOT))
 os.environ.setdefault("DEMO_MODE", "true")
 os.environ.setdefault("GOOGLE_API_KEY", "test-key-placeholder")

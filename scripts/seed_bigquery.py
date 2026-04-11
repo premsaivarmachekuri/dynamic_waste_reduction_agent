@@ -11,7 +11,7 @@ import uuid
 from datetime import datetime, date, timedelta
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from dotenv import load_dotenv
 load_dotenv(override=True)
@@ -26,7 +26,7 @@ os.environ.setdefault("GOOGLE_APPLICATION_CREDENTIALS", SA_KEY_FILE)
 
 from google.cloud import bigquery
 
-DATA_PATH = Path(__file__).parent.parent / "data" / "mock_inventory.json"
+DATA_PATH = Path(__file__).parent.parent / "src" / "data" / "mock_inventory.json"
 
 
 def load_mock_data() -> dict:

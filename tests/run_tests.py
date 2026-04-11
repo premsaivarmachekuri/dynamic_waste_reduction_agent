@@ -11,7 +11,7 @@ import traceback
 from pathlib import Path
 from datetime import date
 
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(ROOT))
 os.environ["DEMO_MODE"] = "true"
 
