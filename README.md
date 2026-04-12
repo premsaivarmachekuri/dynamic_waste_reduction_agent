@@ -167,18 +167,6 @@ python src/agent_engine_deploy.py --test --project YOUR_PROJECT_ID \
 
 ---
 
-## ⚠️ Risk Mitigation
-
-| Risk | Mitigation |
-|------|-----------|
-| Vertex AI Forecasting setup | Gemini-based heuristic prediction as fallback |
-| Agent Engine deployment fails | Local ADK runner + `--test-tools` mode |
-| BQ latency in demo | Cached mock JSON for instant demo response |
-| Multi-agent handoff breaks | Each agent independently testable |
-| No API key | Full demo mode with realistic mock AI analysis |
-
----
-
 ## 📄 License
 
 MIT — built for Google AI Hackathon 2026.
